@@ -1,0 +1,38 @@
+#+TITLE: Lectures
+#+AUTHOR: Fouche
+
+* Lecture I: Introduzione
+** 2-categorie: def di partenza
+** Estensioni e lift di Kan
+** Caratterizzazione degli aggiunti mediante estensioni e lift
+** Il sacro pasting lemma
+** Strutture di Yoneda e FCT: motivazioni
+** Assiomi di struttura di Yoneda
+** La vera natura di P: una KZ monade con opportune proprietà
+** Teoremi validi nelle strutture di Yoneda
+** La nozione di P-cocompletezza
+** Categorie accessibili e presentabili, classicamente?
+* Lecture II: Accessibility and Presentability in 2-categories
+** Cosa vogliamo fare
+Le categorie accessibili e presentabili sono particolari
+oggetti della 2-categoria $\bf CAT$; fino a che punto è possibile
+sketchare una definizione per un oggetto
+accessibile/presentabile di una 2-categoria $\mathcal K$? E' ancora
+possibile recuperare i teoremi classici di rappresentazione,
+che dicono come gli oggetti accessibili nascano da
+riflessioni di oggetti dei prefasci?
+
+E' ancora possibile enunciare e dimostrare la dualità di
+Gabriel-Ulmer, ossia la biequivalenza tra la sub-2-categoria
+degli oggetti presentabili di K e la 2-categoria degli
+"oggetti con limiti finiti"?
+
+** L'idea per farlo
+** Definizione: Yoneda context
+** Definizione: oggetto accessibile wrt un contesto
+** Definizione: oggetto presentabile wrt un contesto
+** Faint presentability: non più equivalente alla presentabilità forte
+** ...Ma sono equivalenti in un GU-envelope!...
+** ...che è esattamente il setting dove vale GU
+** Esempi, tantissimi esempi
+** Long term goal: derivatori e infty-categorie

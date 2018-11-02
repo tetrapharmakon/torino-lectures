@@ -1,12 +1,19 @@
-#+TITLE: Lectures
-#+AUTHOR: Fouche
+#+TITLE: Strutture di Yoneda e accessibilità
+#+AUTHOR: Fosco Loregian
 
 * Lecture I: Introduzione
 ** 2-categorie: def di partenza
+Una /2-categoria/ è un certo tipo di struttura 2-dimensionale che soddisfa le seguenti ipotesi
+
+1. E' data una classe di oggetti $\cal K_0$
+2. E' dato per ogni coppia di oggetti $X,Y\in \cal K_0$ un insieme di morfismi (o /1-celle/) ${\cal K}(X,Y)$
+3. E' data una regola di composizione
 ** Estensioni e lift di Kan
 ** Caratterizzazione degli aggiunti mediante estensioni e lift
 ** Il sacro pasting lemma
-** Strutture di Yoneda e FCT: motivazioni
+** Strutture di Yoneda e FCT: il lemma di Yoneda come pilastro del pensiero occidentale
+*** Yoneda nel senso classico; Yoneda "per i baby geometri"
+*** Di cosa parliamo quando parliamo di teoria delle categorie?
 ** Assiomi di struttura di Yoneda
 ** La vera natura di P: una KZ monade con opportune proprietà
 ** Teoremi validi nelle strutture di Yoneda
@@ -28,6 +35,9 @@ degli oggetti presentabili di K e la 2-categoria degli
 "oggetti con limiti finiti"?
 
 ** L'idea per farlo
+
+Utilizzare il linguaggio delle strutture di Yoneda; il teorema classico di "rappresentazione" che dice che una categoria è presentabile se e solo se 
+
 ** Definizione: Yoneda context
 ** Definizione: oggetto accessibile wrt un contesto
 ** Definizione: oggetto presentabile wrt un contesto

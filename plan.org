@@ -1,15 +1,171 @@
 #+TITLE: Strutture di Yoneda e accessibilità
 #+AUTHOR: Fosco Loregian
 
+#+LATEX_HEADER: \def\C{\mathbf{C}}
+#+LATEX_HEADER: \def\Cat{\mathsf{Cat}}
+#+LATEX_HEADER: \def\leeft{\text{lift}}
+#+LATEX_HEADER: \def\xto#1{\xrightarrow{#1}}\usepackage[all,2cell]{xy}
+#+LATEX_HEADER: \newcommand{\deduction}[4]{
+#+LATEX_HEADER: 	\begin{array}{c}
+#+LATEX_HEADER: 		#1 \to #2 \\ \hline
+#+LATEX_HEADER: 		#3 \to #4
+#+LATEX_HEADER: 	\end{array}
+#+LATEX_HEADER: }
+#+LATEX_HEADER: \newcommand{\Nearrow}{\rotatebox[origin=c]{45}{$\Rightarrow$}}  % ↗
+#+LATEX_HEADER: \newcommand{\Nwarrow}{\rotatebox[origin=c]{135}{$\Rightarrow$}} % ↖ 
+#+LATEX_HEADER: \newcommand{\Searrow}{\rotatebox[origin=c]{-45}{$\Rightarrow$}} % ↘
+#+LATEX_HEADER: \newcommand{\Swarrow}{\rotatebox[origin=c]{225}{$\Rightarrow$}} % ↙
+#+LATEX_HEADER: \newcommand{\Sarrow}{\rotatebox[origin=c] {-90}{$\Rightarrow$}}
+#+LATEX_HEADER: \newcommand{\Narrow}{\rotatebox[origin=c] {90}{$\Rightarrow$}}
+#+LATEX_HEADER: \usepackage{turnstile}
+#+LATEX_HEADER: \newcommand{\adjunct}[2]{\nsststile{#2}{#1}}
+#+LATEX_HEADER: \def\opp{\op}
+#+LATEX_HEADER: \def\co{\co}
+#+LATEX_HEADER: \def\coop{\text{coop}}
+#+LATEX_HEADER: \def\rift{\text{rift}}
+#+LATEX_HEADER: \def\leeft{\text{lift}} % `lift is already something!
+#+LATEX_HEADER: \def\lan{\text{lan}}
+#+LATEX_HEADER: \def\ran{\text{ran}}
+#+LATEX_HEADER: \def\Rift{\text{Rift}}
+#+LATEX_HEADER: \def\Lift{\text{Lift}}
+#+LATEX_HEADER: \def\Ran{\text{Ran}} 
+#+LATEX_HEADER: \def\Lan{\text{Lan}}
+#+LATEX_HEADER: \def\RIFT{\textsc{rift}}
+#+LATEX_HEADER: \def\LIFT{\textsc{lift}}
+#+LATEX_HEADER: \def\RAN{\textsc{ran}}
+#+LATEX_HEADER: \def\LAN{\textsc{lan}}
+#+LATEX_HEADER: \usepackage{amsthm}
+#+LATEX_HEADER: \theoremstyle{reference}
+#+LATEX_HEADER:   \newtheorem{theorem}{Theorem}[section]
+#+LATEX_HEADER:   \newtheorem{conjec}[theorem]{Conjecture}
+#+LATEX_HEADER:   \newtheorem{corollary}[theorem]{Corollary}
+#+LATEX_HEADER:   \newtheorem{counterex}[theorem]{Counterexample}
+#+LATEX_HEADER:   \newtheorem{definition}[theorem]{Definition}
+#+LATEX_HEADER:   \newtheorem{example}[theorem]{Example}
+#+LATEX_HEADER:   \newtheorem{exercise}[theorem]{Exercise}
+#+LATEX_HEADER:   \newtheorem{lemma}[theorem]{Lemma}
+#+LATEX_HEADER:   \newtheorem{notat}[theorem]{Notation}
+#+LATEX_HEADER:   \newtheorem{proposition}[theorem]{Proposition}
+#+LATEX_HEADER:   \newtheorem{question}[theorem]{Question}
+#+LATEX_HEADER:   \newtheorem{remark}[theorem]{Remark}
+#+LATEX_HEADER:   \newtheorem{scholium}[theorem]{Scholium}
+#+LATEX_HEADER:   \newtheorem{setting}[theorem]{Setting}
+#+LATEX_HEADER:   \newtheorem{conjecture}[theorem]{Conjecture}
+
+
+
 * Lecture I: Introduzione
 ** 2-categorie: def di partenza
-Una /2-categoria/ è un certo tipo di struttura 2-dimensionale che soddisfa le seguenti ipotesi
+Una /2-categoria/ è ``come una categoria, ma gli hom-set
+sono categorie'': si tratta di un certo tipo di struttura
+2-dimensionale che soddisfa le seguenti ipotesi
 
-1. E' data una classe di oggetti $\cal K_0$
-2. E' dato per ogni coppia di oggetti $X,Y\in \cal K_0$ un insieme di morfismi (o /1-celle/) ${\cal K}(X,Y)$
+1. E' data una classe di oggetti $\mathcal K_0$,
+2. E' dato per ogni coppia di oggetti $X,Y\in \cal K_0$ un
+   insieme di morfismi (o /1-celle/) ${\cal K}(X,Y)$
 3. E' data una regola di composizione
+$$ c_{XYZ} : {\cal K}(X,Y)\times {\cal K}(Y,Z) \to {\cal
+K}(X,Z) $$ che sia /bifuntoriale/, ossia tale che valga la
+``regola di interscambio di Godement'': 
+
+$$ ... $$ 
+
+Una 2-categoria è una categoria arricchita su $\Cat$,
+guardata come base monoidale (chiusa): ogni $\Cat({\cal
+C},{\cal D})$ è a sua volta una categoria, i cui oggetti
+sono i funtori $F,G : \C\to {\cal D}$ e i cui morfismi
+sono le trasformazioni naturali. Ciascuna composizione è
+``bilineare'', ed esiste una nozione di funtore arricchito
+(/2-funtore stretto/) e di trasformazione naturale
+arricchita (/trasf. naturale stretta/).
+
+La teoria delle 2-categorie coincide allora con la teoria
+delle $\Cat$ -categorie? In parte sì: un gran numero di
+risultati è conseguenza della teoria generale sviluppata nel
+primo capitolo. Del resto, una parte ancora maggiore di
+risultati non si può ingabbiare nel linguaggio delle
+categorie arricchite: e questo perché segretamente la
+collezione delle 2-categorie (di cui, fatti salvi alcuni
+problemi di teoria degli insiemi, $\Cat$ è un oggetto) è una
+*3-categoria*; le sue proprietà sono quindi più naturalmente
+descritte da strutture e leggi di coerenza più blande di
+quelle che sostengono la teoria delle $\Cat$ -categorie.
+
+Un esempio su tutti: nei termini di una $\Cat$ -categoria è
+complicato (o impossibile?) descrivere come faccia un
+diagramma a commutare *a meno* di una trasformazione
+naturale -invertibile o meno.
+
+Alcune osservazioni:
+
++ Ogni 2-categoria dà luogo ad altre 2-categorie $\mathcal
+  K^\co, \mathcal K^\op$ dove rispettivamente
+  sono state invertite le frecce in dimensione 2 ed 1. Più
+  formalmente, $\mathcal K^\co$ è una 2-categoria
+  ottenuta da $\mathcal K$ che ha gli stessi oggetti e dove
+  $\mathcal K^\co(X,Y) = \mathcal K(X,Y)^\op$, e
+  $\mathcal K^\op$ è una 2-categoria con gli stessi
+  oggetti di $\mathcal K$, dove $\mathcal K^\op(X,Y) =
+  \mathcal K(Y,X)$. Chiaramente, $(\mathcal
+  K^\op)^\co = (\mathcal K^\co)^\op
+  = \mathcal K^\text{coop}$.
+
 ** Estensioni e lift di Kan
+
+*Definizione.* Let $B \xto{f} A \xot{g}C$ a cospan of
+1-cells in ${\mathcal K}$. A /left lifting/ of $f$ along $g$
+consists of a pair $\langle\leeft_gf,\eta\rangle$ (often
+denoted simply as $\leeft_gf$) initial among the commutative
+triangles like the one below: 
+\[
+\vcenter{\xymatrix@C=1.4cm{& C\ar[d]^g \\ B\ar[r]_f
+\ar@{.>}[ur]^{\leeft_gf} & \ar@{}[ul]|(.3){\Nearrow\eta} A}}
+\qquad \deduction{\leeft_gf}{h}{f}{gh} 
+\] In other words,
+composition with $\eta \colon f \To g \circ \leeft_gf$
+determines a bijection $\bar\gamma \mapsto (g *
+\bar\gamma)\circ \eta$ between 2-cells $\leeft_gf
+\xto{\bar\gamma} h$ and 2-cells $f \to gh$.
+
+One can define \emph{right liftings} similarly, reversing
+only the direction of the 2-cell in the diagram above, and
+consequently the universal property, and \emph{left} and
+\emph{right extensions} reversing, respectively, only the
+directions of 1-cells or the direction of both 1- and
+2-cells in the diagram above. It is then clear that left
+extensions in ${\mathcal K}$ are left liftings in ${\mathcal
+K}^\opp$, right liftings in ${\mathcal K}$ are left liftings
+in ${\mathcal K}^\co$, and right extensions are left
+liftings in ${\mathcal K}^\coop$.
+
+The situation is conveniently depicted in the following array of universal
+objects:
+
+\begin{center}
+\begin{array}{|c|c|}\hline \xymatrix{A \ar@{}[dr]|(.3){\Swarrow\eta}\ar[d]_g
+\ar[r]^f& B \\ C \ar@{.>}[ur]_{\Lan_gf} & {\tiny \deduction{\Lan_gf}{h}{f}{hg}}}
+& \xymatrix{{\tiny \deduction{\Lift_gf}{h}{f}{gh}} & C\ar[d]^g \\ B\ar[r]_f
+\ar@{.>}[ur]^{\Lift_gf} & \ar@{}[ul]|(.3){\Nearrow\eta} A} \\ \hline
+%%%
+\xymatrix{A \ar@{}[dr]|(.3){\Nearrow\varepsilon}\ar[d]_g \ar[r]^f& B \\ C
+\ar@{.>}[ur]_{\Ran_gf} & {\tiny \deduction{hg}{f}{h}{\Ran_gf}}} &
+\xymatrix{{\tiny \deduction{h}{\Rift_gf}{gH}{f}} & C\ar[d]^g \\ B\ar[r]_f
+\ar@{.>}[ur]^{\Rift_gf} & \ar@{}[ul]|(.3){\Swarrow\varepsilon} A} \\ \hline
+\end{array}
+\end{center}
+
 ** Caratterizzazione degli aggiunti mediante estensioni e lift
+
+Qui ci proponiamo di dimostrare una caratterizzazione degli
+aggiunti in termini di lift ed estensioni. Si tratta di un
+esercizio elementare nelle proprietà universali in una
+2-categoria, che svolgiamo nei dettagli per fare entrare il
+lettore nella semantica delle 2-categorie.
+
+\begin{prop}
+ABCde f
+\end{prop}
+
 ** Il sacro pasting lemma
 ** Strutture di Yoneda e FCT: il lemma di Yoneda come pilastro del pensiero occidentale
 *** Yoneda nel senso classico; Yoneda "per i baby geometri"

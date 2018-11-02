@@ -1,4 +1,4 @@
-% Created 2018-10-26 ven 17:16
+% Created 2018-11-02 ven 23:50
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -14,12 +14,62 @@
 \usepackage{amssymb}
 \usepackage{capt-of}
 \usepackage{hyperref}
-\author{Fouche}
+\def\C{\mathbf{C}}
+\def\Cat{\mathsf{Cat}}
+\def\leeft{\text{lift}}
+\def\xto#1{\xrightarrow{#1}}\usepackage[all,2cell]{xy}
+\newcommand{\deduction}[4]{
+\begin{array}{c}
+#1 \to #2 \\ \hline
+#3 \to #4
+\end{array}
+}
+\newcommand{\Nearrow}{\rotatebox[origin=c]{45}{$\Rightarrow$}}  % ↗
+\newcommand{\Nwarrow}{\rotatebox[origin=c]{135}{$\Rightarrow$}} % ↖
+\newcommand{\Searrow}{\rotatebox[origin=c]{-45}{$\Rightarrow$}} % ↘
+\newcommand{\Swarrow}{\rotatebox[origin=c]{225}{$\Rightarrow$}} % ↙
+\newcommand{\Sarrow}{\rotatebox[origin=c] {-90}{$\Rightarrow$}}
+\newcommand{\Narrow}{\rotatebox[origin=c] {90}{$\Rightarrow$}}
+\usepackage{turnstile}
+\newcommand{\adjunct}[2]{\nsststile{#2}{#1}}
+\def\opp{\op}
+\def\co{\co}
+\def\coop{\text{coop}}
+\def\rift{\text{rift}}
+\def\leeft{\text{lift}} % `lift is already something!
+\def\lan{\text{lan}}
+\def\ran{\text{ran}}
+\def\Rift{\text{Rift}}
+\def\Lift{\text{Lift}}
+\def\Ran{\text{Ran}}
+\def\Lan{\text{Lan}}
+\def\RIFT{\textsc{rift}}
+\def\LIFT{\textsc{lift}}
+\def\RAN{\textsc{ran}}
+\def\LAN{\textsc{lan}}
+\usepackage{amsthm}
+\theoremstyle{reference}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{conjec}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{counterex}[theorem]{Counterexample}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{notat}[theorem]{Notation}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{scholium}[theorem]{Scholium}
+\newtheorem{setting}[theorem]{Setting}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\author{Fosco Loregian}
 \date{\today}
-\title{Lectures}
+\title{Strutture di Yoneda e accessibilità}
 \hypersetup{
- pdfauthor={Fouche},
- pdftitle={Lectures},
+ pdfauthor={Fosco Loregian},
+ pdftitle={Strutture di Yoneda e accessibilità},
  pdfkeywords={},
  pdfsubject={},
  pdfcreator={Emacs 25.2.2 (Org mode 9.1.3)}, 
@@ -30,32 +80,150 @@
 \tableofcontents
 
 
+
+
 \section{Lecture I: Introduzione}
-\label{sec:orgb53d0f5}
+\label{sec:orgcba1c6d}
 \subsection{2-categorie: def di partenza}
-\label{sec:org9aa8a8e}
+\label{sec:orgf326424}
+Una \emph{2-categoria} è ``come una categoria, ma gli hom-set
+sono categorie'': si tratta di un certo tipo di struttura
+2-dimensionale che soddisfa le seguenti ipotesi
+
+\begin{enumerate}
+\item E' data una classe di oggetti \(\mathcal K_0\),
+\item E' dato per ogni coppia di oggetti \(X,Y\in \cal K_0\) un
+insieme di morfismi (o \emph{1-celle}) \({\cal K}(X,Y)\)
+\item E' data una regola di composizione
+\end{enumerate}
+$$ c_{XYZ} : {\cal K}(X,Y)\times {\cal K}(Y,Z) \to {\cal
+K}(X,Z) $$ che sia \emph{bifuntoriale}, ossia tale che valga la
+``regola di interscambio di Godement'': 
+
+$$ ... $$ 
+
+Una 2-categoria è una categoria arricchita su \(\Cat\),
+guardata come base monoidale (chiusa): ogni \(\Cat({\cal
+C},{\cal D})\) è a sua volta una categoria, i cui oggetti
+sono i funtori \(F,G : \C\to {\cal D}\) e i cui morfismi
+sono le trasformazioni naturali. Ciascuna composizione è
+``bilineare'', ed esiste una nozione di funtore arricchito
+(\emph{2-funtore stretto}) e di trasformazione naturale
+arricchita (\emph{trasf. naturale stretta}).
+
+La teoria delle 2-categorie coincide allora con la teoria
+delle \(\Cat\) -categorie? In parte sì: un gran numero di
+risultati è conseguenza della teoria generale sviluppata nel
+primo capitolo. Del resto, una parte ancora maggiore di
+risultati non si può ingabbiare nel linguaggio delle
+categorie arricchite: e questo perché segretamente la
+collezione delle 2-categorie (di cui, fatti salvi alcuni
+problemi di teoria degli insiemi, \(\Cat\) è un oggetto) è una
+\textbf{3-categoria}; le sue proprietà sono quindi più naturalmente
+descritte da strutture e leggi di coerenza più blande di
+quelle che sostengono la teoria delle \(\Cat\) -categorie.
+
+Un esempio su tutti: nei termini di una \(\Cat\) -categoria è
+complicato (o impossibile?) descrivere come faccia un
+diagramma a commutare \textbf{a meno} di una trasformazione
+naturale -invertibile o meno.
+
+Alcune osservazioni:
+
+\begin{itemize}
+\item Ogni 2-categoria dà luogo ad altre 2-categorie \(\mathcal
+  K^\co, \mathcal K^\op\) dove rispettivamente
+sono state invertite le frecce in dimensione 2 ed 1. Più
+formalmente, \(\mathcal K^\co\) è una 2-categoria
+ottenuta da \(\mathcal K\) che ha gli stessi oggetti e dove
+\(\mathcal K^\co(X,Y) = \mathcal K(X,Y)^\op\), e
+\(\mathcal K^\op\) è una 2-categoria con gli stessi
+oggetti di \(\mathcal K\), dove \(\mathcal K^\op(X,Y) =
+  \mathcal K(Y,X)\). Chiaramente, \((\mathcal
+  K^\op)^\co = (\mathcal K^\co)^\op
+  = \mathcal K^\text{coop}\).
+\end{itemize}
+
 \subsection{Estensioni e lift di Kan}
-\label{sec:org39136f6}
+\label{sec:org25a80de}
+
+\textbf{Definizione.} Let \(B \xto{f} A \xot{g}C\) a cospan of
+1-cells in \({\mathcal K}\). A \emph{left lifting} of \(f\) along \(g\)
+consists of a pair \(\langle\leeft_gf,\eta\rangle\) (often
+denoted simply as \(\leeft_gf\)) initial among the commutative
+triangles like the one below: 
+\[
+\vcenter{\xymatrix@C=1.4cm{& C\ar[d]^g \\ B\ar[r]_f
+\ar@{.>}[ur]^{\leeft_gf} & \ar@{}[ul]|(.3){\Nearrow\eta} A}}
+\qquad \deduction{\leeft_gf}{h}{f}{gh} 
+\] In other words,
+composition with \(\eta \colon f \To g \circ \leeft_gf\)
+determines a bijection \(\bar\gamma \mapsto (g *
+\bar\gamma)\circ \eta\) between 2-cells \(\leeft_gf
+\xto{\bar\gamma} h\) and 2-cells \(f \to gh\).
+
+One can define \emph{right liftings} similarly, reversing
+only the direction of the 2-cell in the diagram above, and
+consequently the universal property, and \emph{left} and
+\emph{right extensions} reversing, respectively, only the
+directions of 1-cells or the direction of both 1- and
+2-cells in the diagram above. It is then clear that left
+extensions in \({\mathcal K}\) are left liftings in \({\mathcal
+K}^\opp\), right liftings in \({\mathcal K}\) are left liftings
+in \({\mathcal K}^\co\), and right extensions are left
+liftings in \({\mathcal K}^\coop\).
+
+The situation is conveniently depicted in the following array of universal
+objects:
+
+\begin{center}
+\begin{array}{|c|c|}\hline \xymatrix{A \ar@{}[dr]|(.3){\Swarrow\eta}\ar[d]_g
+\ar[r]^f& B \\ C \ar@{.>}[ur]_{\Lan_gf} & {\tiny \deduction{\Lan_gf}{h}{f}{hg}}}
+& \xymatrix{{\tiny \deduction{\Lift_gf}{h}{f}{gh}} & C\ar[d]^g \\ B\ar[r]_f
+\ar@{.>}[ur]^{\Lift_gf} & \ar@{}[ul]|(.3){\Nearrow\eta} A} \\ \hline
+%%%
+\xymatrix{A \ar@{}[dr]|(.3){\Nearrow\varepsilon}\ar[d]_g \ar[r]^f& B \\ C
+\ar@{.>}[ur]_{\Ran_gf} & {\tiny \deduction{hg}{f}{h}{\Ran_gf}}} &
+\xymatrix{{\tiny \deduction{h}{\Rift_gf}{gH}{f}} & C\ar[d]^g \\ B\ar[r]_f
+\ar@{.>}[ur]^{\Rift_gf} & \ar@{}[ul]|(.3){\Swarrow\varepsilon} A} \\ \hline
+\end{array}
+\end{center}
+
 \subsection{Caratterizzazione degli aggiunti mediante estensioni e lift}
-\label{sec:org9220f4a}
+\label{sec:org26b90bd}
+
+Qui ci proponiamo di dimostrare una caratterizzazione degli
+aggiunti in termini di lift ed estensioni. Si tratta di un
+esercizio elementare nelle proprietà universali in una
+2-categoria, che svolgiamo nei dettagli per fare entrare il
+lettore nella semantica delle 2-categorie.
+
+\begin{prop}
+ABCde f
+\end{prop}
+
 \subsection{Il sacro pasting lemma}
-\label{sec:orgbd10d2c}
-\subsection{Strutture di Yoneda e FCT: motivazioni}
-\label{sec:orgd78a6dc}
+\label{sec:org46eb4aa}
+\subsection{Strutture di Yoneda e FCT: il lemma di Yoneda come pilastro del pensiero occidentale}
+\label{sec:org4f6eee9}
+\subsubsection{Yoneda nel senso classico; Yoneda "per i baby geometri"}
+\label{sec:org48a76f8}
+\subsubsection{Di cosa parliamo quando parliamo di teoria delle categorie?}
+\label{sec:org12570a5}
 \subsection{Assiomi di struttura di Yoneda}
-\label{sec:org03469d8}
+\label{sec:orga3a215c}
 \subsection{La vera natura di P: una KZ monade con opportune proprietà}
-\label{sec:org064869f}
+\label{sec:org8a07368}
 \subsection{Teoremi validi nelle strutture di Yoneda}
-\label{sec:org9aa5bb5}
+\label{sec:orgb9f0a24}
 \subsection{La nozione di P-cocompletezza}
-\label{sec:org388883e}
+\label{sec:orgc9e386a}
 \subsection{Categorie accessibili e presentabili, classicamente?}
-\label{sec:org91b1759}
+\label{sec:orgb7f855d}
 \section{Lecture II: Accessibility and Presentability in 2-categories}
-\label{sec:orge67549c}
+\label{sec:orge7b98a1}
 \subsection{Cosa vogliamo fare}
-\label{sec:orgf93fd49}
+\label{sec:org4881c98}
 Le categorie accessibili e presentabili sono particolari
 oggetti della 2-categoria \(\bf CAT\); fino a che punto è possibile
 sketchare una definizione per un oggetto
@@ -70,21 +238,24 @@ degli oggetti presentabili di K e la 2-categoria degli
 "oggetti con limiti finiti"?
 
 \subsection{L'idea per farlo}
-\label{sec:org16d78da}
+\label{sec:org9dbae78}
+
+Utilizzare il linguaggio delle strutture di Yoneda; il teorema classico di "rappresentazione" che dice che una categoria è presentabile se e solo se 
+
 \subsection{Definizione: Yoneda context}
-\label{sec:org5b6050a}
+\label{sec:orgb4a6cc9}
 \subsection{Definizione: oggetto accessibile wrt un contesto}
-\label{sec:org8056442}
+\label{sec:org4f56f29}
 \subsection{Definizione: oggetto presentabile wrt un contesto}
-\label{sec:orge560ac8}
+\label{sec:org15c0a19}
 \subsection{Faint presentability: non più equivalente alla presentabilità forte}
-\label{sec:orgcfe39da}
+\label{sec:orgaeee656}
 \subsection{\ldots{}Ma sono equivalenti in un GU-envelope!\ldots{}}
-\label{sec:orgeab109d}
+\label{sec:orgf5c84f1}
 \subsection{\ldots{}che è esattamente il setting dove vale GU}
-\label{sec:org67232a0}
+\label{sec:org3ef6adb}
 \subsection{Esempi, tantissimi esempi}
-\label{sec:org919ea69}
+\label{sec:org6b79e8f}
 \subsection{Long term goal: derivatori e infty-categorie}
-\label{sec:orgda58b7e}
+\label{sec:org701e285}
 \end{document}

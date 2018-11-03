@@ -1,14 +1,20 @@
 #+TITLE: Strutture di Yoneda e accessibilità
 #+AUTHOR: Fosco Loregian
 
-#+LATEX_HEADER: \def\C{\mathbf{C}}
+#+LATEX_HEADER: \usepackage{graphicx}
+#+LATEX_HEADER: \def\C{\mathcal{C}}
+#+LATEX_HEADER: \def\Set{\mathbf{Set}}
+#+LATEX_HEADER: \usepackage[all,2cell]{xy}\UseAllTwocells
 #+LATEX_HEADER: \def\Cat{\mathsf{Cat}}
 #+LATEX_HEADER: \def\leeft{\text{lift}}
-#+LATEX_HEADER: \def\xto#1{\xrightarrow{#1}}\usepackage[all,2cell]{xy}
+#+LATEX_HEADER: \def\xto#1{\xrightarrow{#1}}
+#+LATEX_HEADER: \def\xot#1{\xleftarrow{#1}}
+#+LATEX_HEADER: \def\To{\Rightarrow}
+#+LATEX_HEADER: \usepackage[all,2cell]{xy}
 #+LATEX_HEADER: \newcommand{\deduction}[4]{
 #+LATEX_HEADER: 	\begin{array}{c}
 #+LATEX_HEADER: 		#1 \to #2 \\ \hline
-#+LATEX_HEADER: 		#3 \to #4
+#+LATEshellX_HEADER: 		#3 \to #4
 #+LATEX_HEADER: 	\end{array}
 #+LATEX_HEADER: }
 #+LATEX_HEADER: \newcommand{\Nearrow}{\rotatebox[origin=c]{45}{$\Rightarrow$}}  % ↗
@@ -19,8 +25,8 @@
 #+LATEX_HEADER: \newcommand{\Narrow}{\rotatebox[origin=c] {90}{$\Rightarrow$}}
 #+LATEX_HEADER: \usepackage{turnstile}
 #+LATEX_HEADER: \newcommand{\adjunct}[2]{\nsststile{#2}{#1}}
-#+LATEX_HEADER: \def\opp{\op}
-#+LATEX_HEADER: \def\co{\co}
+#+LATEX_HEADER: \def\opp{\text{op}}
+#+LATEX_HEADER: \def\co{\text{co}}
 #+LATEX_HEADER: \def\coop{\text{coop}}
 #+LATEX_HEADER: \def\rift{\text{rift}}
 #+LATEX_HEADER: \def\leeft{\text{lift}} % `lift is already something!
@@ -37,17 +43,18 @@
 #+LATEX_HEADER: \usepackage{amsthm}
 #+LATEX_HEADER: \theoremstyle{reference}
 #+LATEX_HEADER:   \newtheorem{theorem}{Theorem}[section]
-#+LATEX_HEADER:   \newtheorem{conjec}[theorem]{Conjecture}
-#+LATEX_HEADER:   \newtheorem{corollary}[theorem]{Corollary}
-#+LATEX_HEADER:   \newtheorem{counterex}[theorem]{Counterexample}
-#+LATEX_HEADER:   \newtheorem{definition}[theorem]{Definition}
-#+LATEX_HEADER:   \newtheorem{example}[theorem]{Example}
-#+LATEX_HEADER:   \newtheorem{exercise}[theorem]{Exercise}
+#+LATEX_HEADER:   \newtheorem{conjec}[theorem]{Congettura}
+#+LATEX_HEADER:   \newtheorem{axiom}[theorem]{Assioma}
+#+LATEX_HEADER:   \newtheorem{corollary}[theorem]{Corollario}
+#+LATEX_HEADER:   \newtheorem{counterex}[theorem]{Controesempio}
+#+LATEX_HEADER:   \newtheorem{definition}[theorem]{Definizione}
+#+LATEX_HEADER:   \newtheorem{example}[theorem]{Esempio}
+#+LATEX_HEADER:   \newtheorem{exercise}[theorem]{Esercizio}
 #+LATEX_HEADER:   \newtheorem{lemma}[theorem]{Lemma}
-#+LATEX_HEADER:   \newtheorem{notat}[theorem]{Notation}
-#+LATEX_HEADER:   \newtheorem{proposition}[theorem]{Proposition}
-#+LATEX_HEADER:   \newtheorem{question}[theorem]{Question}
-#+LATEX_HEADER:   \newtheorem{remark}[theorem]{Remark}
+#+LATEX_HEADER:   \newtheorem{notat}[theorem]{Notazione}
+#+LATEX_HEADER:   \newtheorem{proposition}[theorem]{Proposizione}
+#+LATEX_HEADER:   \newtheorem{question}[theorem]{Domanda}
+#+LATEX_HEADER:   \newtheorem{remark}[theorem]{Osservazione}
 #+LATEX_HEADER:   \newtheorem{scholium}[theorem]{Scholium}
 #+LATEX_HEADER:   \newtheorem{setting}[theorem]{Setting}
 #+LATEX_HEADER:   \newtheorem{conjecture}[theorem]{Conjecture}
@@ -64,19 +71,18 @@ sono categorie'': si tratta di un certo tipo di struttura
 2. E' dato per ogni coppia di oggetti $X,Y\in \cal K_0$ un
    insieme di morfismi (o /1-celle/) ${\cal K}(X,Y)$
 3. E' data una regola di composizione
-$$ c_{XYZ} : {\cal K}(X,Y)\times {\cal K}(Y,Z) \to {\cal
-K}(X,Z) $$ che sia /bifuntoriale/, ossia tale che valga la
-``regola di interscambio di Godement'': 
-
-$$ ... $$ 
-
-Una 2-categoria è una categoria arricchita su $\Cat$,
-guardata come base monoidale (chiusa): ogni $\Cat({\cal
-C},{\cal D})$ è a sua volta una categoria, i cui oggetti
-sono i funtori $F,G : \C\to {\cal D}$ e i cui morfismi
-sono le trasformazioni naturali. Ciascuna composizione è
-``bilineare'', ed esiste una nozione di funtore arricchito
-(/2-funtore stretto/) e di trasformazione naturale
+$$ c_{XYZ} : {\cal K}(X,Y)\times {\cal K}(Y,Z) \to {\cal K}(X,Z) $$ che sia
+/bifuntoriale/, ossia tale esista una regola di composizione orizzontale, una
+verticale, e tali che per esse valga la ``regola di interscambio di Godement'':
+$$ \xymatrix{A \ruppertwocell{\beta} \ar[r]\rlowertwocell{\delta}& B
+\ruppertwocell{\alpha} \ar[r]\rlowertwocell{\gamma}& C} $$
+$$ (\alpha *\beta)\circ (\gamma * \delta) = (\gamma \circ\alpha) * (\delta \circ
+\beta)$$
+Una 2-categoria è una categoria arricchita su $\Cat$, guardata come base
+monoidale (chiusa): ogni $\Cat({\cal C},{\cal D})$ è a sua volta una categoria,
+i cui oggetti sono i funtori $F,G : \C\to {\cal D}$ e i cui morfismi sono le
+trasformazioni naturali. Ciascuna composizione è ``bilineare'', ed esiste una
+nozione di funtore arricchito (/2-funtore stretto/) e di trasformazione naturale
 arricchita (/trasf. naturale stretta/).
 
 La teoria delle 2-categorie coincide allora con la teoria
@@ -93,39 +99,32 @@ quelle che sostengono la teoria delle $\Cat$ -categorie.
 
 Un esempio su tutti: nei termini di una $\Cat$ -categoria è
 complicato (o impossibile?) descrivere come faccia un
-diagramma a commutare *a meno* di una trasformazione
-naturale -invertibile o meno.
+diagramma a commutare /a meno di una trasformazione
+naturale/ -invertibile o meno.
 
 Alcune osservazioni:
 
-+ Ogni 2-categoria dà luogo ad altre 2-categorie $\mathcal
-  K^\co, \mathcal K^\op$ dove rispettivamente
-  sono state invertite le frecce in dimensione 2 ed 1. Più
-  formalmente, $\mathcal K^\co$ è una 2-categoria
-  ottenuta da $\mathcal K$ che ha gli stessi oggetti e dove
-  $\mathcal K^\co(X,Y) = \mathcal K(X,Y)^\op$, e
-  $\mathcal K^\op$ è una 2-categoria con gli stessi
-  oggetti di $\mathcal K$, dove $\mathcal K^\op(X,Y) =
-  \mathcal K(Y,X)$. Chiaramente, $(\mathcal
-  K^\op)^\co = (\mathcal K^\co)^\op
-  = \mathcal K^\text{coop}$.
++ Ogni 2-categoria dà luogo ad altre 2-categorie $\mathcal K^\co, \mathcal
+  K^\opp$ dove rispettivamente sono state invertite le frecce in dimensione 2
+  ed 1. Più formalmente, $\mathcal K^\co$ è una 2-categoria ottenuta da
+  $\mathcal K$ che ha gli stessi oggetti e dove $\mathcal K^\co(X,Y) = \mathcal
+  K(X,Y)^\opp$, e $\mathcal K^\opp$ è una 2-categoria con gli stessi oggetti di
+  $\mathcal K$, dove $\mathcal K^\opp(X,Y) = \mathcal K(Y,X)$. Chiaramente,
+  $(\mathcal K^\opp)^\co = (\mathcal K^\co)^\opp = \mathcal K^\text{coop}$.
 
 ** Estensioni e lift di Kan
 
-*Definizione.* Let $B \xto{f} A \xot{g}C$ a cospan of
-1-cells in ${\mathcal K}$. A /left lifting/ of $f$ along $g$
-consists of a pair $\langle\leeft_gf,\eta\rangle$ (often
-denoted simply as $\leeft_gf$) initial among the commutative
-triangles like the one below: 
-\[
-\vcenter{\xymatrix@C=1.4cm{& C\ar[d]^g \\ B\ar[r]_f
-\ar@{.>}[ur]^{\leeft_gf} & \ar@{}[ul]|(.3){\Nearrow\eta} A}}
-\qquad \deduction{\leeft_gf}{h}{f}{gh} 
-\] In other words,
-composition with $\eta \colon f \To g \circ \leeft_gf$
-determines a bijection $\bar\gamma \mapsto (g *
-\bar\gamma)\circ \eta$ between 2-cells $\leeft_gf
-\xto{\bar\gamma} h$ and 2-cells $f \to gh$.
+\begin{definition}
+Sia $B \xto{f} A \xot{g}C$ un cospan di 1-celle di una 2-categoria ${\mathcal
+K}$. Un /lifting sinistro/ di $f$ lungo $g$ consiste di una coppia
+$\langle\leeft_gf,\eta\rangle$ (spesso denotata semplicemente $\leeft_gf$) che è
+iniziale tra tutti i triangoli commutativi come quello qui in basso: \[
+\vcenter{\xymatrix@C=1.4cm{& C\ar[d]^g \\ B\ar[r]_f \ar@{.>}[ur]^{\leeft_gf} &
+\ar@{}[ul]|(.3){\Nearrow\eta} A}} \qquad \deduction{\leeft_gf}{h}{f}{gh} \] In
+altre parole, la composizione con $\eta \colon f \To g \circ \leeft_gf$
+determina una biiezione $\bar\gamma \mapsto (g * \bar\gamma)\circ \eta$ tra le
+2-celle $\leeft_gf \xto{\bar\gamma} h$ e le 2-celle $f \to gh$. 
+\end{definition}
 
 One can define \emph{right liftings} similarly, reversing
 only the direction of the 2-cell in the diagram above, and
@@ -154,6 +153,10 @@ objects:
 \end{array}
 \end{center}
 
+\begin{definition}[Estensione/lift preservato/assoluto]
+Blah blah
+\end{definition}
+
 ** Caratterizzazione degli aggiunti mediante estensioni e lift
 
 Qui ci proponiamo di dimostrare una caratterizzazione degli
@@ -162,15 +165,147 @@ esercizio elementare nelle proprietà universali in una
 2-categoria, che svolgiamo nei dettagli per fare entrare il
 lettore nella semantica delle 2-categorie.
 
-\begin{prop}
-ABCde f
-\end{prop}
+\begin{proposition}
+Le seguenti condizioni sono equivalenti per una coppia di 1-celle $f : A \leftrightarrows B : g$
+\begin{itemize}
+\item $f \dashv g$ con unità $\eta$ e counità $\epsilon$;
+\item La coppia $\langle g,\eta\rangle$ esibisce la Lan assoluta di $1$ lungo $f$
+\item La coppia $\langle g,\eta\rangle$ esibisce la Lan di $1$ lungo $f$, ed $f$ la preserva.
+\end{itemize}
+\end{proposition}
+\begin{proof}
 
+\end{proof}
+Valgono condizioni duali che si possono riassumere nel seguente specchietto:
+\begin{center}
+\includegraphics{adjs}
+\end{center}
 ** Il sacro pasting lemma
-** Strutture di Yoneda e FCT: il lemma di Yoneda come pilastro del pensiero occidentale
+
+Uno dei trucchi tecnici più utili è il seguente: si chiama /pasting lemma/.
+\begin{proposition}
+Dato un diagramma come
+$$ ... $$
+se il triangolo segnato e il triangolo esterno sono estensioni di Kan, tale è anche il rimanente triangolo. 
+\end{proposition}
+\begin{proof}
+
+\end{proof}
+** Il lemma di Yoneda come pilastro del pensiero occidentale
 *** Yoneda nel senso classico; Yoneda "per i baby geometri"
+
+Il lemma di Yoneda come viene insegnato nelle scuole inferiori, asserisce che
+dato un prefascio $F \in \widehat{\C}$ e un oggetto $c\in \C$ esiste un isomorfismo naturale in $c$
+
+$$ Nat(y(c),F)\cong Fc $$
+
+Ora, lungi dall'essere un mero teorema di matemaitca, questo asserto costituisce
+uno dei punti più elevati raggiunti dal pensiero occidentale nella sua totalità.
+Diverse generazioni di studio sono state completamente insufficienti a
+disvelarne le incredibili conseguenze.
+
+Quello che facciamo noi ora è
+
++ Scrivere il lemma di Yoneda in forma fibrazionale;
++ Capire in che cosa consiste quando i prefasci vengono interpretati come fibrazioni
+
+Per farlo ci avvaliamo di questo risultato:
+
+\begin{proposition}
+Esiste un'equcat tra $[\C^\opp, \Set]$ (la categoria dei prefasci su $\C$) e la 
+categoria delle /fibrazioni discrete/ su $\C$ (una fibrazione discreta è un funtore
+$p : \mathcal E \to \C$ tale che ogni fibra $p^\leftarrow(c)$ sia una categoria
+discreta).
+\end{proposition}
+\begin{proof}
+
+\end{proof}
+In tale contesto il lemma di Yoneda diventa il seguente enunciato
+\begin{lemma}[Yoneda fibrazionale]
+Blah blah
+\end{lemma}
+\begin{proof}
+Esercizio.
+\end{proof}
+
 *** Di cosa parliamo quando parliamo di teoria delle categorie?
+
+Che cos'è la teoria delle categorie? Nelle parole di John Gray,
+\begin{quote}
+The purpose of category theory is to try to describe certain general
+ aspects of the structure of mathematics. Since category theory is 
+also part of mathematics, this categorical type of description should
+ apply to it as well as to other parts of mathematics. [O]ne should
+ attempt to identify those properties that enable one to do the 
+"structural parts of category theory".
+\end{quote}
+Che cosa significa questo? Sostanzialmente che la teoria delle categorie
+"astratta" è quell'insieme di asserti che riguardano il comportamento di
+strutture che si comportano come la 2-categoria paradigmatica $\Cat$ (allo
+stesso modo, la teoria delle categorie "concreta" consta di quegli asserti che
+riguardano categorie che si comportano come quelle di oggetti matematici
+quotidiani: la categoria degli insiemi, quella dei gruppi abeliani, dei monoidi,
+degli insiemi o spazi vettoriali con una azione di gruppo\dots).
+
+Analogamente a quel che succede quando si usa la teoria delle categorie per
+chiarificare la matematica classica (in modo che le proprietà degli oggetti
+matematici diventino proprietà universali, e che queste proprietà universali
+siano godute dagli oggetti di una categoria, definendo, ad esempio, la semantica
+funtoriale delle teorie algebriche), la teoria delle 2-categorie fa lo stesso
+lavoro con la teoria delle categorie. Alle entità fondamentali della teoria
+delle categorie (gli aggiunti e il loro calcolo, le monadi, le estensioni di
+Kan, il calcolo dei co/limiti\dots) viene data licenza di esistere non più
+/nella 2-categoria $\Cat$/, ma in una generica 2-categoria $\mathcal K$.
+
+La nozione di /struttura di Yoneda/ nasce per dare conto di queste affermazioni
+e concretizzarle in una teoria esplicita e computabile: prendiamo come assiomi
+fondamentali di questa religione il fatto che
+
++ la teoria delle categorie coincide con l'insieme dei corollari del lemma di
+  Yoneda;
++ E' possibile enunciare un insieme finito di assiomi capaci di catturare le
+  varie facce del lemma di Yoneda;
++ L'intero comparto di tecniche della CT formale nasce per rispondere a questa
+  domanda: qual è il minimo amount di struttura addizionale da mettere su una
+  2-categoria $\mathcal K$ per fare in modo che esistano, in $\mathcal K$, delle
+  1-celle che giocano lo stesso ruolo delle fibrazioni discrete, dando a
+  $\mathcal K$ una versione fibrazionale del lemma di Yoneda?
+ 
 ** Assiomi di struttura di Yoneda
+
+Gli assiomi sono 4. Seguiamo questo pattern:
+
++ Come zeresimo passo, listiamo i dati che $\mathcal K$ deve possedere; questi
+  dati formano un /telaio di Yoneda/.
++ Prima enunciamo l'assioma;
++ Poi mostriamo perché è vero in $\Cat$ (la risposta sarà che l'assioma è una
+  conseguenza del lemma di Yoneda, in un modo o nell'altro);
++ Poi enucleiamo alcuni corollari di quell'assioma.
+
+\begin{definition}[Telaio di Yoneda]
+Affinché $\mathcal K$ abbia un telaio di Yoneda essa deve essere equipaggiata di questi dati: 
+\begin{itemize}
+\item Un ideale di morfismi "ammissibili"; le frecce identiche nell'ideale specificano gli /oggetti/ ammissibili.
+\item Per ogni oggetto ammissibile $A$ una "freccia di Yoneda" $y_A : A \to PA$ verso un oggetto che chiamiamo "oggetto 
+dei prefasci" di $A$.
+\end{itemize}
+\end{definition}
+
+\begin{axiom}
+Blah blah
+\end{axiom}
+
+\begin{axiom}
+Blah blah
+\end{axiom}
+
+\begin{axiom}
+Blah blah
+\end{axiom}
+
+\begin{axiom}
+Blah blah
+\end{axiom}
 ** La vera natura di P: una KZ monade con opportune proprietà
 ** Teoremi validi nelle strutture di Yoneda
 ** La nozione di P-cocompletezza

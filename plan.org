@@ -2,7 +2,7 @@
 #+AUTHOR: Fosco Loregian
 
 #+LATEX_HEADER: \usepackage{graphicx}
-#+LATEX_HEADER: \usepackage{eucal}
+#+LATEX_HEADER: \usepackage{eucal, hyphenat}
 #+LATEX_HEADER: \usepackage{tikz-cd}
 #+LATEX_HEADER: \hyphenation{mo-no-i-da-le}
 #+LATEX_HEADER: \def\C{\mathcal{C}}
@@ -120,7 +120,16 @@ determines a bijection $\bar\gamma \mapsto (g *
 \xto{\bar\gamma} h$ and 2-cells $f \to gh$.
 \end{definition}
 
-Si può anche definire un \emph{lifting destro} in maniera simile, rovesciando la direzione delle sole 2-celle nel diagramma precedente, e le \emph{estensioni sinistre} e \emph{destre} rispettivamente rovesciando solo la direzione delle 1-celle, o la direzione di entrambe nel diagramma precedente. E' quindi chiaro che le estensioni sinistre sono lifting sinistri in ${\mathcal K}^\opp$, i lifting destri in ${\mathcal K}$ sono lifting sinistri in ${\mathcal K}^\co$, e le estensioni destre sono lifting sinistri in ${\mathcal K}^\coop$.
+Si può anche definire un \emph{lifting destro} in maniera
+simile, rovesciando la direzione delle sole 2-celle nel
+diagramma precedente, e le \emph{estensioni sinistre} e
+\emph{destre} rispettivamente rovesciando solo la direzione
+delle 1-celle, o la direzione di entrambe nel diagramma
+precedente. E' quindi chiaro che le estensioni sinistre sono
+lifting sinistri in ${\mathcal K}^\opp$, i lifting destri in
+${\mathcal K}$ sono lifting sinistri in ${\mathcal K}^\co$,
+e le estensioni destre sono lifting sinistri in ${\mathcal
+K}^\coop$.
 
 \begin{center}
 \begin{array}{|c|c|}\hline \xymatrix{A \ar@{}[dr]|(.3){\Swarrow\eta}\ar[d]_g
@@ -190,6 +199,7 @@ Valgono condizioni duali che si possono riassumere nel seguente specchietto:
 \begin{center}
 \includegraphics{adjs}
 \end{center}
+
 ** Il sacro pasting lemma
 
 Uno dei trucchi tecnici più utili è il seguente: si chiama /pasting lemma/. La dimostrazione si fa verificando la proprietà universale giusta.
@@ -257,7 +267,9 @@ tra le frecce tratteggiate e gli elementi di $Pc$.
 \begin{proof}
 Esercizio.
 \end{proof}
+
 *** Di cosa parliamo quando parliamo di teoria delle categorie?
+
 Che cos’è la teoria delle categorie? Nelle parole di John Gray,
 \begin{quote}
 The purpose of category theory is to try to describe certain general
@@ -268,34 +280,43 @@ should apply to it as well as to other parts of mathematics.
 [O]ne should attempt to identify those properties that enable one
 to do the "structural parts of category theory".
 \end{quote}
-Che cosa significa questo? Sostanzialmente che la teoria delle categorie
-"astratta" è quell’insieme di asserti che riguardano il comportamento di
-strutture che si comportano come la 2-categoria paradigmatica $\Cat$ (allo
-stesso modo, la teoria delle categorie "concreta" consta di quegli asserti che
-riguardano categorie che si comportano come quelle di oggetti matematici
-quotidiani: la categoria degli insiemi, quella dei gruppi abeliani, dei monoidi,
-degli insiemi o spazi vettoriali con una azione di gruppo. . . ).
-Analogamente a quel che succede quando si usa la teoria delle categorie
-per chiarificare la matematica classica (in modo che le proprietà degli oggetti
-matematici diventino proprietà universali, e che queste proprietà universali
-siano godute dagli oggetti di una categoria, definendo, ad esempio, la semantica
-funtoriale delle teorie algebriche), la teoria delle 2-categorie fa lo
-stesso lavoro con la teoria delle categorie. Alle entità fondamentali della teoria
-delle categorie (gli aggiunti e il loro calcolo, le monadi, le estensioni di Kan, il calcolo dei co/limiti\dots) viene data licenza di esistere non più nella
-2-categoria $\Cat$, ma in una generica 2-categoria $\mathcal K$.
-La nozione di struttura di Yoneda nasce per dare conto di queste affermazioni
-e concretizzarle in una teoria esplicita e computabile: prendiamo
-come assiomi fondamentali di questa religione il fatto che
+Che cosa significa questo? Sostanzialmente che la teoria
+delle categorie "astratta" è quell’insieme di asserti che
+riguardano il comportamento di strutture che si comportano
+come la 2-categoria paradigmatica $\Cat$ (allo stesso modo,
+la teoria delle categorie "concreta" consta di quegli
+asserti che riguardano categorie che si comportano come
+quelle di oggetti matematici quotidiani: la categoria degli
+insiemi, quella dei gruppi abeliani, dei monoidi, degli
+insiemi o spazi vettoriali con una azione di gruppo. . . ).
+Analogamente a quel che succede quando si usa la teoria
+delle categorie per chiarificare la matematica classica (in
+modo che le proprietà degli oggetti matematici diventino
+proprietà universali, e che queste proprietà universali
+siano godute dagli oggetti di una categoria, definendo, ad
+esempio, la semantica funtoriale delle teorie algebriche),
+la teoria delle 2-categorie fa lo stesso lavoro con la
+teoria delle categorie. Alle entità fondamentali della
+teoria delle categorie (gli aggiunti e il loro calcolo, le
+monadi, le estensioni di Kan, il calcolo dei co/limiti\dots)
+viene data licenza di esistere non più nella 2-categoria
+$\Cat$, ma in una generica 2-categoria $\mathcal K$. La
+nozione di struttura di Yoneda nasce per dare conto di
+queste affermazioni e concretizzarle in una teoria esplicita
+e computabile: prendiamo come assiomi fondamentali di questa
+religione il fatto che
 
-+ la teoria delle categorie coincide con l’insieme dei corollari del lemma
-di Yoneda;
-+ E’ possibile enunciare un insieme finito di assiomi capaci di catturare
-le varie facce del lemma di Yoneda;
-+ L’intero comparto di tecniche della CT formale nasce per rispondere a
-questa domanda: qual è il minimo amount di struttura addizionale da
-mettere su una 2-categoria $\mathcal K$ per fare in modo che esistano, in $\mathcal K$, delle
-1-celle che giocano lo stesso ruolo delle fibrazioni discrete, dando a $\mathcal K$
-una versione fibrazionale del lemma di Yoneda?
++ la teoria delle categorie coincide con l’insieme dei
+  corollari del lemma di Yoneda;
++ E’ possibile enunciare un insieme finito di assiomi capaci
+  di catturare le varie facce del lemma di Yoneda;
++ L’intero comparto di tecniche della CT formale nasce per
+  rispondere a questa domanda: qual è il minimo amount di
+  struttura addizionale da mettere su una 2-categoria
+  $\mathcal K$ per fare in modo che esistano, in $\mathcal
+  K$, delle 1-celle che giocano lo stesso ruolo delle
+  fibrazioni discrete, dando a $\mathcal K$ una versione
+  fibrazionale del lemma di Yoneda?
 
 ** Assiomi di struttura di Yoneda
 
@@ -324,7 +345,13 @@ $$
 \begin{axiom}
 La coppia $\langle B(f,1), \chi^f\rangle$ esibisce $\lan_fy_A$.
 \end{axiom}
-Perché è vero in $\Cat$? E' il lemma di Yoneda, nella forma che asserisce l'esistenza di un funtore $N_f = B(f,1) : \lambda b.(\lambda a. B(fa,b))$, detto \emph{$f$-nervo}. Ad esempio, quando $f : \Delta \to \Cat$ è il funtore che realizza ogni ordinale finito come una categoria, $\Cat(f,A)$ è il \emph{nervo} della categoria $A\in\Cat$, che manda $n$ in $\Cat([n],A)$.
+Perché è vero in $\Cat$? E' il lemma di Yoneda, nella forma
+che asserisce l'esistenza di un funtore $N_f = B(f,1) :
+\lambda b.(\lambda a. B(fa,b))$, detto \emph{$f$-nervo}. Ad
+esempio, quando $f : \Delta \to \Cat$ è il funtore che
+realizza ogni ordinale finito come una categoria,
+$\Cat(f,A)$ è il \emph{nervo} della categoria $A\in\Cat$,
+che manda $n$ in $\Cat([n],A)$.
 \begin{proof}
 Bisogna mostrare l'isomorfismo $$[B,PA](N_f,G) \cong [A,PA](y_A,G\circ f).$$
 Per farlo, è sufficiente considerare l'isomorfismo integrale
@@ -365,7 +392,7 @@ P \cong \varinjlim\!{}^P y_A \xto{\varinjlim{}^P\beta} \varinjlim\!{}^P H y_A \t
 $$
 Che queste siano le componenti di una trasformazione naturale $1 \To H$ è presto verificato.
 \end{proof}
-** Alcuni teoremi veri in una YS
+
 
 Ora possiamo definire diverse nozioni che non avevano un analogo controllabile prima di scoprire che $\mathcal K$ supportava una teoria delle categorie.
 
@@ -376,6 +403,47 @@ Blah
 Blah 
 \end{definition}
 
+** Esempi
+
+Raccogliamo degli esempi di strutture di Yoneda
+
++ Sulla categoria $\mathcal V\text{-Cat}$ delle categorie
+  arricchite su una base monoidale $\mathcal V$ c'è una
+  struttura di Yoneda dove $y_A$ è la versione arricchita
+  dell'embedding classico. (Esiste qualcosa di analogo anche
+  per categorie arricchite su una bicategoria?)
++ Nella 2-categoria delle categorie interne a $\mathcal K$
+  (una categoria con limiti finiti, o con almeno pullback)
+  c'è una struttura di Yoneda ma fatta con le fibrazioni; ne
+  sketchiamo l'esistenza. Let $\mathcal E$ be a finitely
+  complete category, and $\mathcal K = \Cat(\mathcal E)$ the 2-category of categories internal to $\mathcal E$. Recall the definition of an internal profunctor; prove that there is an equivalence 
+$$ \mathrm{Prof}_{\mathcal E}(A,B) \cong
+\mathrm{Prof}_{\mathcal E}(1,A^\opp\times B)$$ Prove that this
+correspondence is natural in $A,B$ (which covariance type is
+it?). We define 
+\begin{itemize} 
+\item an \emph{internal full subcategory} of $\mathcal E$ an object $\mathrm{S}$ of $\mathcal K$ with
+an internal profunctor $s : 1 \rightsquigarrow \mathrm{S}$ inducing a
+fully faithful functor \[\mathcal K(X,\mathrm{S}) \to
+\mathrm{Prof}_{\mathcal E}(1,B)\] via precomposition. 
+\item a 1-cell $f : A\to B$ in $\mathcal K$ \emph{admissible} when the profunctor
+corresponding to $(f/B)$ lies in the essential image of the
+functor $\mathcal K(A^\opp\times B,\mathrm{S}) \to
+\mathrm{Prof}_{\mathcal E}(1,A^\opp\times B)$. call $f^*$ this
+(unique) 1-cell $A^\opp\times B \to \mathrm{S}$. 
+\end{itemize}
+Prove that $\mathcal K$ has a Yoneda structure when $B(f,1) :=
+\widehat{f^*} : B \to [A^\opp,\mathrm{S}]$ is the mate of
+$f^*$, and thus $P A := [A^\opp,\mathrm{S}]$.
+
+What happens when $\mathcal E$ is an elementary topos and $\mathrm{S}=\Omega_{\mathcal E}$?
+What happens when $\mathcal E$ is a Grothendieck topos and $\mathrm S = \mathbb{N}$ is the
+natural number object of $\mathcal E$?.
+
++ Sulla categoria degli pseudofuntori $\mathcal A \to \Cat$ ($\mathcal A$ una bicategoria a caso) c'è una struttura di Yoneda "puntuale", definita da una opportuna contorsione fibrazionale.
+
++ Domanda aperta: questa struttura di Yoneda si riporta alla 2-categoria (stretta) dei funtori /stretti/ $\mathcal A \to \Cat$ (ora $\mathcal A$ è una 2-categoria stretta). Come si trova una struttura di Yoneda sulla 2-categoria dei prederivatori che abbia un significato omotopico?
+
 ** La nozione di P-cocompletezza
 
 Negli assiomi di YS è nascosto il fatto che $PA$ ha la proprietà universale del cocompletamento libero di $A$: dove? E' magari possibile dimostrare che un oggetto $X$ è cocompleto se e solo se tutte le 1-celle $A\to X$ si estendono a una aggiunzione $PA \leftrightarrows X$? La risposta è sì, ma affinché sia vero $PA$ deve essere "cocompleto rispetto a sé stesso".
@@ -385,20 +453,41 @@ Un oggetto $X\in \mathcal K$ si dice \emph{cocompleto} quando
 \end{definition}
 ** Categorie accessibili e presentabili, classicamente?
 \begin{definition}[Categoria accessibile]
-
+Una categoria $\mathcal K$ si dice $\alpha$\hyp{}accessibile se 
+\begin{itemize}
+\item Ha i colimiti $\alpha$\hyp{}diretti;
+\item Ha un insieme di oggetti $\alpha$\hyp{}compatti che genera $\mathcal K$ per colimiti $\alpha$\hyp{}diretti.
+\end{itemize}
 \end{definition}
 \begin{definition}[Categoria presentabile]
-
+Una categoria $\mathcal K$ si dice $\alpha$\hyp{}presentabile se è $\alpha$\hyp{}accessibile e cocompleta.
 \end{definition}
 \begin{definition}[Teorema di rappresentazione, I]
-
+Equivalent characterizations include that $C$ is $\alpha$\hyp{}accessible iff:
+\begin{itemize}
+\item it is the category of models (in Set) of some small sketch.
+\item it is of the form $Ind_\alpha(S)$ for $S$ small, i.e. the $\alpha$\hyp{}ind-completion of a small category, for some $\alpha$.
+\item it is of the form $\alpha\text{-Flat}(S)$ for $S$ small and some $\alpha$, i.e. the category of $\alpha$\hyp{}flat functors from some small category to $Set$.
+\end{itemize}
 \end{definition}
 \begin{definition}[Teorema di rappresentazione, II]
-
+Equivalentemente, una categoria $\mathcal K$ è presentabile se una, e quindi tutte, di queste condizioni è soddisfatta:
+\begin{itemize}
+\item $\mathcal K$ è la categoria dei modelli di un limit sketch;
+\item $\mathcal K$ è equivalente alla categoria $[C,\Set]$ dei funtori da $C$ a $\Set$ che preservano gli $\alpha$\hyp{}limiti;
+\item $\mathcal K$ è una localizzazione riflessiva, accessibilmente immersa, di una categoria di prefasci.
+\end{itemize}
 \end{definition}
 \begin{definition}[Dualità di Gabriel-Ulmer]
-
+La dualità di Gabriel-Ulmer asserisce che la 2-categoria $\bf Lex$ delle categorie con limiti finiti e la 2-categoria $\bf Prs$ delle categorie $\aleph_0$\hyp{}presentabili sono biequivalenti (ricorda la definizione di biequivalenza).
 \end{definition}
+Si tratta di costruire una coppia di funtori
+$$
+P : {\bf Lex} \leftrightarrows {\bf Prs} : Cc
+$$
+nel modo seguente: data una categoria $C$ con limiti finiti, la sua categoria di prefasci $[C^\opp,\Set]$ è finitamente presentabile. Viceversa, data una categoria localmente presentabile $\mathcal K$, possiamo estrarre la sua sottocategoria degli oggetti \aleph_0-compatti; questa è una categoria con limiti finiti (è un risultato standard), e questo determina una biaggiunzione. 
+
+Ora, le categorie con limiti finiti sono Cauchy-complete, sicché esse sono univocamente determinate dalle loro categorie di prefasci; questo significa che $P$ è pienamente fedele. Del resto, estrarre la categoria degli oggetti \aleph_0-compatti da $\mathcal K$ è anche lui un funtore pienamente fedele, perché $\mathcal K \cong Ind_\aleph_0(Cc(\mathcal K))$.
 * Lecture II: Accessibility and Presentability in 2-categories
 ** Cosa vogliamo fare
 Le categorie accessibili e presentabili sono particolari

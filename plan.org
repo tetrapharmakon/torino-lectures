@@ -2,7 +2,10 @@
 #+AUTHOR: Fosco Loregian
 
 #+LATEX_HEADER: \usepackage{graphicx}
-#+LATEX_HEADER: \def\C{\mathbf{C}}
+#+LATEX_HEADER: \usepackage{eucal}
+#+LATEX_HEADER: \usepackage{tikz-cd}
+#+LATEX_HEADER: \hyphenation{mo-no-i-da-le}
+#+LATEX_HEADER: \def\C{\mathcal{C}}
 #+LATEX_HEADER: \usepackage[all,2cell]{xy}\UseAllTwocells
 #+LATEX_HEADER: \def\Cat{\mathsf{Cat}}
 #+LATEX_HEADER: \def\Set{\mathsf{Set}}
@@ -43,20 +46,17 @@
 #+LATEX_HEADER: \usepackage{amsthm}
 #+LATEX_HEADER: \theoremstyle{reference}
 #+LATEX_HEADER:   \newtheorem{theorem}{Theorem}[section]
-#+LATEX_HEADER:   \newtheorem{conjec}[theorem]{Conjecture}
-#+LATEX_HEADER:   \newtheorem{corollary}[theorem]{Corollary}
-#+LATEX_HEADER:   \newtheorem{counterex}[theorem]{Counterexample}
-#+LATEX_HEADER:   \newtheorem{definition}[theorem]{Definition}
-#+LATEX_HEADER:   \newtheorem{example}[theorem]{Example}
-#+LATEX_HEADER:   \newtheorem{exercise}[theorem]{Exercise}
+#+LATEX_HEADER:   \newtheorem{conjec}[theorem]{Congettura}
+#+LATEX_HEADER:   \newtheorem{corollary}[theorem]{Corollario}
+#+LATEX_HEADER:   \newtheorem{counterex}[theorem]{Controesempio}
+#+LATEX_HEADER:   \newtheorem{definition}[theorem]{Definizione}
+#+LATEX_HEADER:   \newtheorem{axiom}[theorem]{Assioma}
+#+LATEX_HEADER:   \newtheorem{example}[theorem]{Esempio}
+#+LATEX_HEADER:   \newtheorem{exercise}[theorem]{Esercizio}
 #+LATEX_HEADER:   \newtheorem{lemma}[theorem]{Lemma}
-#+LATEX_HEADER:   \newtheorem{notat}[theorem]{Notation}
-#+LATEX_HEADER:   \newtheorem{proposition}[theorem]{Proposition}
-#+LATEX_HEADER:   \newtheorem{question}[theorem]{Question}
-#+LATEX_HEADER:   \newtheorem{remark}[theorem]{Remark}
-#+LATEX_HEADER:   \newtheorem{scholium}[theorem]{Scholium}
-#+LATEX_HEADER:   \newtheorem{setting}[theorem]{Setting}
-#+LATEX_HEADER:   \newtheorem{conjecture}[theorem]{Conjecture}
+#+LATEX_HEADER:   \newtheorem{notat}[theorem]{Notazione}
+#+LATEX_HEADER:   \newtheorem{proposition}[theorem]{Proposizione}
+#+LATEX_HEADER:   \newtheorem{remark}[theorem]{Osservazione}
 
 
 
@@ -110,6 +110,7 @@ Alcune osservazioni:
   K(X,Y)^\opp$, e $\mathcal K^\opp$ è una 2-categoria con gli stessi oggetti di
   $\mathcal K$, dove $\mathcal K^\opp(X,Y) = \mathcal K(Y,X)$. Chiaramente,
   $(\mathcal K^\opp)^\co = (\mathcal K^\co)^\opp = \mathcal K^\text{coop}$.
++ Gli oggetti di $\mathcal K$ si dicono \emph{0-celle}; gli oggetti delle categorie ${\mathcal K}(X,Y)$ si dicono 1-celle (di dominio $X$ e codominio $Y$); i morfismi delle categorie ${\mathcal K}(X,Y)$ si dicono 2-celle di $\mathcal K$ (di dominio\dots e codominio\dots).
 
 ** Estensioni e lift di Kan
 
@@ -130,19 +131,7 @@ determines a bijection $\bar\gamma \mapsto (g *
 \xto{\bar\gamma} h$ and 2-cells $f \to gh$.
 \end{definition}
 
-One can define \emph{right liftings} similarly, reversing
-only the direction of the 2-cell in the diagram above, and
-consequently the universal property, and \emph{left} and
-\emph{right extensions} reversing, respectively, only the
-directions of 1-cells or the direction of both 1- and
-2-cells in the diagram above. It is then clear that left
-extensions in ${\mathcal K}$ are left liftings in ${\mathcal
-K}^\opp$, right liftings in ${\mathcal K}$ are left liftings
-in ${\mathcal K}^\co$, and right extensions are left
-liftings in ${\mathcal K}^\coop$.
-
-The situation is conveniently depicted in the following array of universal
-objects:
+Si può anche definire un \emph{lifting destro} in maniera simile, rovesciando la direzione delle sole 2-celle nel diagramma precedente, e le \emph{estensioni sinistre} e \emph{destre} rispettivamente rovesciando solo la direzione delle 1-celle, o la direzione di entrambe nel diagramma precedente. E' quindi chiaro che le estensioni sinistre sono lifting sinistri in ${\mathcal K}^\opp$, i lifting destri in ${\mathcal K}$ sono lifting sinistri in ${\mathcal K}^\co$, e le estensioni destre sono lifting sinistri in ${\mathcal K}^\coop$.
 
 \begin{center}
 \begin{array}{|c|c|}\hline \xymatrix{A \ar@{}[dr]|(.3){\Swarrow\eta}\ar[d]_g
@@ -241,8 +230,7 @@ a disvelarne le incredibili conseguenze.
 Quello che facciamo noi ora è
 
 + Scrivere il lemma di Yoneda in forma fibrazionale;
-+ Capire in che cosa consiste quando i prefasci vengono interpretati come
-fibrazioni
++ Capire in che cosa consiste quando i prefasci vengono interpretati come fibrazioni
 
 Per farlo ci avvaliamo di questo risultato:
 
@@ -252,11 +240,25 @@ su $\C$) e la categoria delle /fibrazioni discrete/ su $\C$ (una fibrazione disc
 è un funtore $p : \mathcal E \to \C$ tale che ogni fibra $p^\leftarrow(c)$ sia una categoria discreta).
 \end{proposition}
 \begin{proof}
-
+E' sufficiente dimostrare che esiste una coppia di funtori in direzioni opposte 
+$$
+[\C^\opp,\Set] \leftrightarrows \text{DFib}(\C)
+$$
+le cui composizioni nei due sensi siano isomorfe alle rispettive identità (perché?). Per farlo, definiamo ${\mathfrak E} : [\C^\opp,\Set] \to \text{DFib}(\C)$ mandando $P$ nella sua categoria degli elementi; in direzione opposta, definiamo ${\mathfrak F} : \text{DFib}(\C) \to [\C^\opp,\Set]$ mandando $p : \mathcal E\to \C$ nel prefascio determinato da $\lambda c.p^\leftarrow(c)$ (dal momento che $p$ è una fibrazione discreta, questa corrispondenza è davvero un funtore). E' evidente che $\mathfrak{EF}\cong 1$, così come $\mathfrak{FE}\cong 1$.
 \end{proof}
 In tale contesto il lemma di Yoneda diventa il seguente enunciato:
 \begin{lemma}[Yoneda fibrazionale]
-Blah blah
+C'è una biiezione
+$$\left\{
+{\small 
+\vcenter{
+  \xymatrix@!=3mm{
+  \C/c \ar@{.>}[rr]\ar[dr]_U && \mathfrak E(P)\ar[dl]^\pi \\
+  & \C & 
+  }
+}}
+\right\} \cong Pc$$
+tra le frecce tratteggiate e gli elementi di $Pc$.
 \end{lemma}
 \begin{proof}
 Esercizio.
@@ -307,17 +309,72 @@ Gli assiomi sono 4. Seguiamo questo pattern:
 
 + Come zeresimo passo, listiamo i dati che K deve possedere; questi dati formano un telaio di Yoneda.
 + Prima enunciamo l’assioma;
-+ Poi mostriamo perché è vero in $\Cat$ (la risposta sarà che l’assioma è
-una conseguenza del lemma di Yoneda, in un modo o nell’altro);
++ Poi mostriamo perché è vero in $\Cat$ (la risposta sarà che l’assioma è una conseguenza del lemma di Yoneda, in un modo o nell’altro);
 + Poi enucleiamo alcuni corollari di quell’assioma.
 
+\begin{definition}
+Affinché K abbia un telaio di Yoneda essa deve essere equipaggiata di questi dati:
+\begin{itemize}
+\item Un ideale di morfismi "ammissibili"; le frecce identiche nell’ideale specificano
+gli /oggetti/ ammissibili.
+\item Per ogni oggetto ammissibile $A$ una "freccia di Yoneda" $y_A : A \to P A$ verso un oggetto che chiamiamo "oggetto dei prefasci" di $A$;
+\item per ogni morfismo ammissibile $f : A\to B$ con dominio ammissibile un triangolo
+$$
+\xymatrix{
+  &A \ar[dr]^f\ar[dl]_{y_A}&\\
+PA \urlowertwocell<\omit>{<3>\quad\chi^f}&&\ar[ll]^{B(f,1)} B
+}
+$$
+\end{itemize}
+\end{definition}
+\begin{axiom}
+La coppia $\langle B(f,1), \chi^f\rangle$ esibisce $\lan_fy_A$.
+\end{axiom}
+Perché è vero in $\Cat$? E' il lemma di Yoneda, nella forma che asserisce l'esistenza di un funtore $N_f = B(f,1) : \lambda b.(\lambda a. B(fa,b))$, detto \emph{$f$-nervo}. Ad esempio, quando $f : \Delta \to \Cat$ è il funtore che realizza ogni ordinale finito come una categoria, $\Cat(f,A)$ è il \emph{nervo} della categoria $A\in\Cat$, che manda $n$ in $\Cat([n],A)$.
+\begin{proof}
+Bisogna mostrare l'isomorfismo
+[B,PA](N_f,G) \cong [A,PA](y_A,G\circ f)
+\end{proof}
+Per farlo, è sufficiente considerare l'isomorfismo integrale
+\begin{align*}
+[B,PA](N_f,G) &\cong \int_b PA(B(f,b),Gb)\\
+&\cong \int_{ab} \Set(B(fa,b), G(b)(a))\\
+&\cong G(fa)(a)\\
+[A,PA](y_A,G\circ f) & \cong \int_a PA(y_A(a), G(fa))\\
+&\cong G(fa)(a).
+\end{align*}
+E' ovviamente possibile una dimostrazione diretta, con la proprietà universale: la lasciamo come esercizio.
+\begin{axiom}
+La coppia $\langle f, \chi^f\rangle$ esibisce $\leeft_{B(f,1)}y_A$.
+\end{axiom}
+Perché è vero in $\Cat$? E' il lemma di Yoneda, nella forma che asserisce che vale l'isomorfismo
+\begin{align*} 
+[A,PA]\big( y_A, N_f\circ g \big) &\cong \int_{a'}[A^\opp,\Set]\big(y_A{a'}, N_f\circ g(a')\big)\\ 
+& \cong \int_{a'}[A^\opp,\Set]\big( y_A{a'}, B(f\firstblank,ga')\big)\\ 
+&\cong \int_{a'}B(fa',ga')\\ &\cong [A,B](f,g)
+\end{align*}
+E' ovviamente possibile una dimostrazione diretta, con la proprietà universale: la lasciamo come esercizio.
+\begin{axiom}
+Given a pair of composable 1-cells $A \xto{f} B\xto{g} C$, the
+pasting of 2-cells
+$$ \begin{tikzcd}[column sep=large, row sep=large] A\ar[d, "f"']\ar[rr, "y_A"{name=yonA}] && P A\\ B \ar[r, "y_B"{name=yonB}]\ar[d, "g"'] & P B\ar[ur, "P f"']\\ C\ar[ur, "{C(g,1)}"'] \ar[from=yonA, to=yonB, shorten >=2mm, shorten <=4mm, Rightarrow, "\chi^{y_B f}"] \ar[from=yonB, shorten >=4mm, shorten <=4mm, Rightarrow, "\chi^g"] \end{tikzcd} $$
+exhibits $\lan_{gf}y_A = C(gf,1)$.
+\end{axiom}
+Perché è vero in $\Cat$? Pasting lemma delle estensioni.
+\begin{axiom}
+La coppia $\langle 1_{PA}, 1_{y_A} \rangle$ esibisce $\lan_{y_A}y_A$.
+\end{axiom}
+Perché è vero in $\Cat$? E' il lemma di Yoneda, nella forma che asserisce che l'embedding di Yoneda è un funtore \emph{denso}.
+\begin{proof}
+
+\end{proof}
 ** La vera natura di P: una KZ monade con opportune proprietà
 ** La nozione di P-cocompletezza
 ** Categorie accessibili e presentabili, classicamente?
 * Lecture II: Accessibility and Presentability in 2-categories
 ** Cosa vogliamo fare
 Le categorie accessibili e presentabili sono particolari
-oggetti della 2-categoria $\bf CAT$; fino a che punto è possibile
+oggetti della 2-categoria $\Cat$; fino a che punto è possibile
 sketchare una definizione per un oggetto
 accessibile/presentabile di una 2-categoria $\mathcal K$? E' ancora
 possibile recuperare i teoremi classici di rappresentazione,

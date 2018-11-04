@@ -9,17 +9,11 @@
 #+LATEX_HEADER: \usepackage[all,2cell]{xy}\UseAllTwocells
 #+LATEX_HEADER: \def\Cat{\mathsf{Cat}}
 #+LATEX_HEADER: \def\Set{\mathsf{Set}}
-#+LATEX_HEADER: \def\leeft{\text{lift}}
 #+LATEX_HEADER: \def\xto#1{\xrightarrow{#1}}
 #+LATEX_HEADER: \def\xot#1{\xleftarrow{#1}}
 #+LATEX_HEADER: \def\To{\Rightarrow}
 #+LATEX_HEADER: \usepackage[all,2cell]{xy}
-#+LATEX_HEADER: \newcommand{\deduction}[4]{
-#+LATEX_HEADER: 	\begin{array}{c}
-#+LATEX_HEADER: 		#1 \to #2 \\ \hline
-#+LATEshellX_HEADER: 		#3 \to #4
-#+LATEX_HEADER: 	\end{array}
-#+LATEX_HEADER: }
+#+LATEX_HEADER: \newcommand{\deduction}[4]{\begin{array}{c} #1 \to #2 \\ \hline #3 \to #4 \end{array}}
 #+LATEX_HEADER: \newcommand{\Nearrow}{\rotatebox[origin=c]{45}{$\Rightarrow$}}  % ↗
 #+LATEX_HEADER: \newcommand{\Nwarrow}{\rotatebox[origin=c]{135}{$\Rightarrow$}} % ↖ 
 #+LATEX_HEADER: \newcommand{\Searrow}{\rotatebox[origin=c]{-45}{$\Rightarrow$}} % ↘
@@ -28,17 +22,17 @@
 #+LATEX_HEADER: \newcommand{\Narrow}{\rotatebox[origin=c] {90}{$\Rightarrow$}}
 #+LATEX_HEADER: \usepackage{turnstile}
 #+LATEX_HEADER: \newcommand{\adjunct}[2]{\nsststile{#2}{#1}}
-#+LATEX_HEADER: \def\opp{\text{op}}
-#+LATEX_HEADER: \def\co{\text{co}}
-#+LATEX_HEADER: \def\coop{\text{coop}}
-#+LATEX_HEADER: \def\rift{\text{rift}}
-#+LATEX_HEADER: \def\leeft{\text{lift}} % `lift is already something!
-#+LATEX_HEADER: \def\lan{\text{lan}}
-#+LATEX_HEADER: \def\ran{\text{ran}}
-#+LATEX_HEADER: \def\Rift{\text{Rift}}
-#+LATEX_HEADER: \def\Lift{\text{Lift}}
-#+LATEX_HEADER: \def\Ran{\text{Ran}} 
-#+LATEX_HEADER: \def\Lan{\text{Lan}}
+#+LATEX_HEADER: \def\opp{\mathrm{op}}
+#+LATEX_HEADER: \def\co{\mathrm{co}}
+#+LATEX_HEADER: \def\coop{\mathrm{coop}}
+#+LATEX_HEADER: \def\rift{\mathrm{rift}}
+#+LATEX_HEADER: \def\leeft{\mathrm{lift}} % `lift is already something!
+#+LATEX_HEADER: \def\lan{\mathrm{lan}}
+#+LATEX_HEADER: \def\ran{\mathrm{ran}}
+#+LATEX_HEADER: \def\Rift{\mathrm{Rift}}
+#+LATEX_HEADER: \def\Lift{\mathrm{Lift}}
+#+LATEX_HEADER: \def\Ran{\mathrm{Ran}} 
+#+LATEX_HEADER: \def\Lan{\mathrm{Lan}}
 #+LATEX_HEADER: \def\RIFT{\textsc{rift}}
 #+LATEX_HEADER: \def\LIFT{\textsc{lift}}
 #+LATEX_HEADER: \def\RAN{\textsc{ran}}
@@ -46,17 +40,12 @@
 #+LATEX_HEADER: \usepackage{amsthm}
 #+LATEX_HEADER: \theoremstyle{reference}
 #+LATEX_HEADER:   \newtheorem{theorem}{Theorem}[section]
-#+LATEX_HEADER:   \newtheorem{conjec}[theorem]{Congettura}
-#+LATEX_HEADER:   \newtheorem{corollary}[theorem]{Corollario}
-#+LATEX_HEADER:   \newtheorem{counterex}[theorem]{Controesempio}
 #+LATEX_HEADER:   \newtheorem{definition}[theorem]{Definizione}
 #+LATEX_HEADER:   \newtheorem{axiom}[theorem]{Assioma}
-#+LATEX_HEADER:   \newtheorem{example}[theorem]{Esempio}
-#+LATEX_HEADER:   \newtheorem{exercise}[theorem]{Esercizio}
 #+LATEX_HEADER:   \newtheorem{lemma}[theorem]{Lemma}
-#+LATEX_HEADER:   \newtheorem{notat}[theorem]{Notazione}
 #+LATEX_HEADER:   \newtheorem{proposition}[theorem]{Proposizione}
 #+LATEX_HEADER:   \newtheorem{remark}[theorem]{Osservazione}
+#+LATEX_HEADER: \hypersetup{colorlinks=true, linkcolor=black}
 
 
 
@@ -110,7 +99,7 @@ Alcune osservazioni:
   K(X,Y)^\opp$, e $\mathcal K^\opp$ è una 2-categoria con gli stessi oggetti di
   $\mathcal K$, dove $\mathcal K^\opp(X,Y) = \mathcal K(Y,X)$. Chiaramente,
   $(\mathcal K^\opp)^\co = (\mathcal K^\co)^\opp = \mathcal K^\text{coop}$.
-+ Gli oggetti di $\mathcal K$ si dicono \emph{0-celle}; gli oggetti delle categorie ${\mathcal K}(X,Y)$ si dicono 1-celle (di dominio $X$ e codominio $Y$); i morfismi delle categorie ${\mathcal K}(X,Y)$ si dicono 2-celle di $\mathcal K$ (di dominio\dots e codominio\dots).
++ Gli oggetti di $\mathcal K$ si dicono \emph{0-celle}; gli oggetti delle categorie ${\mathcal K}(X,Y)$ si dicono 1-celle (di dominio $X$ e codominio $Y$); i morfismi delle categorie ${\mathcal K}(X,Y)$ si dicono 2-celle di $\mathcal K$.
 
 ** Estensioni e lift di Kan
 
@@ -203,12 +192,17 @@ Valgono condizioni duali che si possono riassumere nel seguente specchietto:
 \end{center}
 ** Il sacro pasting lemma
 
-Uno dei trucchi tecnici più utili è il seguente: si chiama /pasting lemma/.
+Uno dei trucchi tecnici più utili è il seguente: si chiama /pasting lemma/. La dimostrazione si fa verificando la proprietà universale giusta.
 \begin{proposition}
 Dato un diagramma come
-\[ ... \]
-
-se il triangolo segnato e il triangolo esterno sono estensioni di Kan, tale è anche il rimanente triangolo
+$$
+\begin{tikzcd}
+|[alias=a]|A \ar[r,"h"]\ar[d,"f"']&|[alias=d]| D &|[alias=a']| A \ar[d]\ar[r,"h"]&|[alias=d']| D \\
+B \ar[d,"g"']\ar[ur]&&|[alias=b']| B \ar[d]\ar[ur]\\
+|[alias=c]|C \ar[bend right,uur] && C\ar[bend right,uur] 
+\end{tikzcd}
+$$
+se il triangolo esterno e quello superiore sono estensioni di Kan, tale è anche il rimanente triangolo.
 \end{proposition}
 
 ** Strutture di Yoneda e FCT: il lemma di Yoneda come pilastro del pensiero occidentale
@@ -332,9 +326,7 @@ La coppia $\langle B(f,1), \chi^f\rangle$ esibisce $\lan_fy_A$.
 \end{axiom}
 Perché è vero in $\Cat$? E' il lemma di Yoneda, nella forma che asserisce l'esistenza di un funtore $N_f = B(f,1) : \lambda b.(\lambda a. B(fa,b))$, detto \emph{$f$-nervo}. Ad esempio, quando $f : \Delta \to \Cat$ è il funtore che realizza ogni ordinale finito come una categoria, $\Cat(f,A)$ è il \emph{nervo} della categoria $A\in\Cat$, che manda $n$ in $\Cat([n],A)$.
 \begin{proof}
-Bisogna mostrare l'isomorfismo
-[B,PA](N_f,G) \cong [A,PA](y_A,G\circ f)
-\end{proof}
+Bisogna mostrare l'isomorfismo $$[B,PA](N_f,G) \cong [A,PA](y_A,G\circ f).$$
 Per farlo, è sufficiente considerare l'isomorfismo integrale
 \begin{align*}
 [B,PA](N_f,G) &\cong \int_b PA(B(f,b),Gb)\\
@@ -344,6 +336,7 @@ Per farlo, è sufficiente considerare l'isomorfismo integrale
 &\cong G(fa)(a).
 \end{align*}
 E' ovviamente possibile una dimostrazione diretta, con la proprietà universale: la lasciamo come esercizio.
+\end{proof}
 \begin{axiom}
 La coppia $\langle f, \chi^f\rangle$ esibisce $\leeft_{B(f,1)}y_A$.
 \end{axiom}
@@ -366,11 +359,46 @@ La coppia $\langle 1_{PA}, 1_{y_A} \rangle$ esibisce $\lan_{y_A}y_A$.
 \end{axiom}
 Perché è vero in $\Cat$? E' il lemma di Yoneda, nella forma che asserisce che l'embedding di Yoneda è un funtore \emph{denso}.
 \begin{proof}
-
+Si potrebbe fare con gli integrali usando ancora la formula puntuale per le Lan, ma una dimostrazione diretta è illuminante. Srotolando la proprietà universale, va dimostrato che una trasformazione naturale $\alpha : 1_{PA} \To H$ è univocamente determinata dalla sua restrizione alle componenti rappresentabili (nell'immagine essenziale di $y_A$, che sappiamo già essere pienamente fedele). Ora, data una $\beta : y_A\To Hy_A$ dobbiamo dimostrare che essa è $\alpha *y_A$ per un'unica $\alpha : 1\To H$; per farlo possiamo ricordare che ogni $P : A^\opp\to \Set$ è colimite di rappresentabili, e precisamente $P \cong \varinjlim\!{}^Py_A$; sicché la componente di $\beta$ si può estendere a
+$$
+P \cong \varinjlim\!{}^P y_A \xto{\varinjlim{}^P\beta} \varinjlim\!{}^P H y_A \to H(\varinjlim\!{}^P  y_A ) \cong HP
+$$
+Che queste siano le componenti di una trasformazione naturale $1 \To H$ è presto verificato.
 \end{proof}
-** La vera natura di P: una KZ monade con opportune proprietà
+** Alcuni teoremi veri in una YS
+
+Ora possiamo definire diverse nozioni che non avevano un analogo controllabile prima di scoprire che $\mathcal K$ supportava una teoria delle categorie.
+
+\begin{definition}[Estensioni puntuali e assolute]
+Blah 
+\end{definition}
+\begin{definition}[Caratterizzazione puntuale degli aggiunti]
+Blah 
+\end{definition}
+
 ** La nozione di P-cocompletezza
+
+Negli assiomi di YS è nascosto il fatto che $PA$ ha la proprietà universale del cocompletamento libero di $A$: dove? E' magari possibile dimostrare che un oggetto $X$ è cocompleto se e solo se tutte le 1-celle $A\to X$ si estendono a una aggiunzione $PA \leftrightarrows X$? La risposta è sì, ma affinché sia vero $PA$ deve essere "cocompleto rispetto a sé stesso".
+
+\begin{definition}[Oggetto co/completo]
+Un oggetto $X\in \mathcal K$ si dice \emph{cocompleto} quando 
+\end{definition}
 ** Categorie accessibili e presentabili, classicamente?
+\begin{definition}[Categoria accessibile]
+
+\end{definition}
+\begin{definition}[Categoria presentabile]
+
+\end{definition}
+\begin{definition}[Teorema di rappresentazione, I]
+
+\end{definition}
+\begin{definition}[Teorema di rappresentazione, II]
+
+\end{definition}
+\begin{definition}[Dualità di Gabriel-Ulmer]
+
+\end{definition}
 * Lecture II: Accessibility and Presentability in 2-categories
 ** Cosa vogliamo fare
 Le categorie accessibili e presentabili sono particolari

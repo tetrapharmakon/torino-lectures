@@ -122,7 +122,7 @@ denoted simply as $\leeft_gf$) initial among the commutative
 triangles like the one below: 
 \[
 \vcenter{\xymatrix@C=1.4cm{& C\ar[d]^g \\ B\ar[r]_f
-\ar@{.>}[ur]^{\leeft_gf} & \ar@\{}[ul]|(.3){\Nearrow\eta} A}}
+\ar@{.>}[ur]^{\leeft_gf} & \ar@{}[ul]|(.3){\Nearrow\eta} A}}
 \qquad \deduction{\leeft_gf}{h}{f}{gh} 
 \] In other words,
 composition with $\eta \colon f \To g \circ \leeft_gf$
@@ -166,15 +166,15 @@ aggiunti in termini di lift ed estensioni. Si tratta di un
 esercizio elementare nelle proprietà universali in una
 2-categoria, che svolgiamo nei dettagli per fare entrare il
 lettore nella semantica delle 2-categorie.
-\begin{itemize}
+
 Le seguenti condizioni sono equivalenti per una coppia di
-1-celle $f : A \leftrightarrows B : g$
+1-celle $f : A \leftrightarrows B : g$:
 \begin{itemize}
-\item $f \dashv g$ con unità $\eta$ e counità $\epsilon$;
-\item La coppia $\langle g,\eta\rangle$ esibisce la Lan assoluta di $1$ lungo $f$
-\item La coppia $\langle g,\eta\rangle$ esibisce la Lan di $1$ lungo $f$, ed $f$ la preserva.
+\item  $f \dashv g$ con unità $\eta$ e counità $\epsilon$;
+\item  La coppia $\langle g,\eta\rangle$ esibisce la Lan assoluta di $1$ lungo $f$
+\item  La coppia $\langle g,\eta\rangle$ esibisce la Lan di $1$ lungo $f$, ed $f$ la preserva.
 \end{itemize}
-\end{proposition}
+
 \begin{proof}
 E' evidente che 2 implica 3; mostriamo che 1 implica 2. Dato il diagramma
 $$
@@ -227,7 +227,9 @@ B \ar[d,"g"']\ar[ur]&&|[alias=b']| B \ar[d]\ar[ur]\\
 $$
 se il triangolo esterno e quello superiore sono estensioni di Kan, tale è anche il rimanente triangolo.
 \end{proposition}
-
+\begin{proof}
+  Esercizio.
+\end{proof}
 ** Strutture di Yoneda e FCT: il lemma di Yoneda come pilastro del pensiero occidentale
 
 *** Yoneda nel senso classico; Yoneda "per i baby geometri"
@@ -254,7 +256,7 @@ Quello che facciamo noi ora è
 Per farlo ci avvaliamo di questo risultato:
 \begin{proposition}
 Esiste un’equcat tra $[\C^\opp,\Set]$ (la categoria dei
-prefasci su $\C$) e la categoria delle /fibrazioni discrete/
+prefasci su $\C$) e la categoria delle \emph{fibrazioni discrete}
 su $\C$ (una fibrazione discreta è un funtore $p : \mathcal
 E \to \C$ tale che ogni fibra $p^\leftarrow(c)$ sia una
 categoria discreta). 
@@ -360,7 +362,7 @@ Gli assiomi sono 4. Seguiamo questo pattern:
 Affinché K abbia un telaio di Yoneda essa deve essere
 equipaggiata di questi dati:
 \begin{itemize}
-\item Un ideale di morfismi "ammissibili"; le frecce identiche nell’ideale specificano gli /oggetti/ ammissibili.
+\item Un ideale di morfismi "ammissibili"; le frecce identiche nell’ideale specificano gli \emph{oggetti} ammissibili.
 \item Per ogni oggetto ammissibile $A$ una "freccia di Yoneda" $y_A : A \to P A$ verso un oggetto che chiamiamo "oggetto dei prefasci" di $A$;
 \item per ogni morfismo ammissibile $f : A\to B$ con dominio ammissibile un triangolo
 $$
@@ -376,7 +378,7 @@ La coppia $\langle B(f,1), \chi^f\rangle$ esibisce $\lan_fy_A$.
 \end{axiom}
 Perché è vero in $\Cat$? E' il lemma di Yoneda, nella forma
 che asserisce l'esistenza di un funtore $N_f = B(f,1) :
-\lambda b.(\lambda a. B(fa,b))$, detto \emph{$f$-nervo}. Ad
+\lambda b.(\lambda a. B(fa,b))$, detto \emph{$f$ nervo}. Ad
 esempio, quando $f : \Delta \to \Cat$ è il funtore che
 realizza ogni ordinale finito come una categoria,
 $\Cat(f,A)$ è il \emph{nervo} della categoria $A\in\Cat$,
@@ -400,7 +402,7 @@ La coppia $\langle f, \chi^f\rangle$ esibisce $\leeft_{B(f,1)}y_A$.
 Perché è vero in $\Cat$? E' il lemma di Yoneda, nella forma che asserisce che vale l'isomorfismo
 \begin{align*} 
 [A,PA]\big( y_A, N_f\circ g \big) &\cong \int_{a'}[A^\opp,\Set]\big(y_A{a'}, N_f\circ g(a')\big)\\ 
-& \cong \int_{a'}[A^\opp,\Set]\big( y_A{a'}, B(f\firstblank,ga')\big)\\ 
+& \cong \int_{a'}[A^\opp,\Set]\big( y_A{a'}, B(f - ,ga')\big)\\ 
 &\cong \int_{a'}B(fa',ga')\\ &\cong [A,B](f,g)
 \end{align*}
 E' ovviamente possibile una dimostrazione diretta, con la proprietà universale: la lasciamo come esercizio.
@@ -543,7 +545,50 @@ $$
 con counità invertibile (quindi se e solo se $X$ "è riflessivo in $PX$").
 \end{proposition}
 
-** Categorie accessibili e presentabili, classicamente?
+** La vera natura di $P$.
+
+La costruzione dei prefasci $P$ di una struttura di Yoneda si caratterizza con queste proprietà:
+
+1. E' tale che ogni $Pf$ ha un aggiunto sinistro $P_!f$;
+2. La corrispondenza $f\mapsto P_!f$ definisce una pseudomonade (come una monade, ma uno pseudofuntore) e \emph{relativa} (come una monade, ma non è un endofuntore);
+3. Tale monade è \emph{lax idempotente}, ossia le sue algebre $a : PA\to A$ sono univocamente caratterizzate dal dare una aggiunzione
+\[
+a : PA \leftrightarrows A : y_A
+\]
+In un recente lavoro con I. Di Liberti mostriamo che \emph{tutte} le strutture di Yoneda cocomplete nascono a questo modo.
+
+* Lecture II: Accessibility and Presentability in 2-categories
+
+** Cosa vogliamo fare
+
+Le categorie accessibili e presentabili sono particolari
+oggetti della 2-categoria $\Cat$; fino a che punto è
+possibile sketchare una definizione per un oggetto
+accessibile/presentabile di una 2-categoria $\mathcal K$? E'
+ancora possibile recuperare i teoremi classici di
+rappresentazione, che dicono come gli oggetti accessibili
+nascano da riflessioni di oggetti dei prefasci?
+
+E' ancora possibile enunciare e dimostrare la dualità di
+Gabriel-Ulmer?
+
+** L'idea per farlo
+
+Utilizzare il linguaggio delle strutture di Yoneda;
+idealmente, un oggetto di $\mathcal K$ sarà presentabile se
+nasce da una localizzazione riflessiva di $PA$ per qualche
+oggetto $A$, e sarà accessibile se è della forma
+$Ind_\alpha(G)$ per qualche "generatore" $G$. Ci sono però
+vari problemi:
+
+1. Che ruolo hanno i numeri cardinali in questa definizione?
+La risposta sarà: sono importanti, ma possiamo
+nasconderli sotto il tappeto.
+2. Qual è il significato di "accessibile" in un contesto
+dove non si può guardare dentro gli oggetti, e quindi non
+si può dire che "esiste un generatore"?
+
+** Categorie accessibili e presentabili, classicamente.
 
 \begin{definition}[Categoria accessibile]
 Una categoria $\mathcal K$ si dice $\alpha$\hyp{}accessibile se 
@@ -596,40 +641,131 @@ fedele. Del resto, estrarre la categoria degli oggetti
 \aleph_0-compatti da $\mathcal K$ è anche lui un funtore
 pienamente fedele, perché $\mathcal K \cong
 Ind_\aleph_0(\mathbf{c}(\mathcal K))$.
-* Lecture II: Accessibility and Presentability in 2-categories
-** Cosa vogliamo fare
-Le categorie accessibili e presentabili sono particolari
-oggetti della 2-categoria $\Cat$; fino a che punto è
-possibile sketchare una definizione per un oggetto
-accessibile/presentabile di una 2-categoria $\mathcal K$? E'
-ancora possibile recuperare i teoremi classici di
-rappresentazione, che dicono come gli oggetti accessibili
-nascano da riflessioni di oggetti dei prefasci?
-
-E' ancora possibile enunciare e dimostrare la dualità di
-Gabriel-Ulmer?
-
-** L'idea per farlo
-
-Utilizzare il linguaggio delle strutture di Yoneda;
-idealmente, un oggetto di $\mathcal K$ sarà presentabile se
-nasce da una localizzazione riflessiva di $PA$ per qualche
-oggetto $A$, e sarà accessibile se è della forma
-$Ind_\alpha(G)$ per qualche "generatore" $G$. Ci sono però
-vari problemi:
-
-1. Che ruolo hanno i numeri cardinali in questa definizione?
-   La risposta sarà: sono importanti, ma possiamo
-   nasconderli sotto il tappeto.
-2. Qual è il significato di "accessibile" in un contesto
-   dove non si può guardare dentro gli oggetti, e quindi non
-   si può dire che "esiste un generatore"?
 
 ** Definizione: Yoneda context
+
+\begin{definition}
+	A \emph{Yoneda context} is a pseudonatural transformation $y : S \To P$ such that
+	\begin{itemize}
+		\item for each component $X\in\mathcal K$ the triangle
+		\[
+			\vcenter{\xymatrix{
+			& X \ar[dr]^{\alpha_X}\ar[dl]_{y_X}\ar@{}[d]|{\chi_{P}\Searrow}& \\
+			P(X) && \ar[ll]^{y_X} S (X)
+			}}
+		\]
+		exhibits the left extension of $y_X$ along $\alpha_X$, and which is is component-wise representably fully faithful.
+		\item The pseudo\hyp{}functor $P\in KZ(\mathcal K)$ underlies a Yoneda structure.
+		% \item  $y\in  KZ(\mathcal K)/P$ is a morphism, say $y : S\To P$, which is component-wise $P$ fully faithful.
+	\end{itemize}
+\end{definition}
+
+
 ** Definizione: oggetto accessibile wrt un contesto
+
+\begin{definition}[$y$ accessible object]\label{yonacc}
+	Let $y$ be a context on the 2-category $\mathcal K$; $A\in\mathcal K$ is $y$ \emph{accessible} if there exists a $ P $ small object $G\in \mathcal K$ such that $A\cong S  G$.
+\end{definition}
+
+
 ** Definizione: oggetto presentabile wrt un contesto
+
+resentability is harder to define properly; in fact, the strategy of exploiting a similar intrinsic characterization for the accessibility condition collides with the fact that we are able to give \emph{two} such characterizations:
+\begin{itemize}
+	\item \label{llp:uno} A category $A$ is locally presentable if it is an accessible, accessibly embedded full reflective subcategory of a category of presheaves.
+	\item \label{llp:due} A category $A$ is locally presentable if it is a full reflective subcategory of a category of presheaves such that the inclusion creates $\lambda$ directed colimits.
+\end{itemize}
+These two characterizations are equivalent in $\Cat$, but can't be made equal in general.
+
+We will favour the first definition of presentability.
+\begin{definition}[$y$ presentable object]\label{yonpres}
+	Let $y : S \To P$ be a context; $A\in\mathcal K$ is $y$ \emph{presentable} if the following conditions are satisfied:
+	\begin{itemize}
+		\item \label{p:uno} $A$ is a left split subobject (see \autoref{useful-for-envel}) of $ P G$ for some $G$, via an adjunction $L :  P G \leftrightarrows A : i$;
+		\item \label{p:due} $A$ is $y$ accessible (i.e. $A\cong S \overline G$ for some $\overline G$);
+		\item \label{p:tre} The functor $i : A\to  P G$ exhibits the left extension of $\alpha_{\overline G}\circ i$ along $\alpha_{\overline G}$ ($\alpha_{\overline G} : \overline G \to S \overline G$ is the unit of the \kz),
+		\[
+			\vcenter{\xymatrix{
+			&\overline G \ar@{}[d]|(.6){\eta\Searrow} \ar[dr]^{\alpha_{\bar G}} \ar[dl]_{\alpha_{\bar G}\circ i}& \\
+			 P G && \ar[ll]^i A
+			}}
+		\]
+	\end{itemize}
+\end{definition}
+
 ** Faint presentability: non più equivalente alla presentabilità forte
+
+The following definition, as well as the notion of $S$ cell, will reappear when we study \emph{Gabriel-Ulmer structures}, i.e. those Yoneda contexts where the skewness of our two definitions of presentability disappears (this is the content of \autoref{disappears}; in addition, Gabriel-Ulmer structures will turn out to be the right contexts in which we can instantiate a weak form of Gabriel-Ulmer duality in $\mathcal K$).
+\begin{definition}[Faint presentability]
+	Let $y : S\To  P$ be a Yoneda context on $\mathcal K$. An object $A\in\mathcal K$ is called \emph{faintly presentable} if it is a left split subobject of $ P G$ for some $G\in\mathcal K$, and in addition the inclusion $A\to  P G$ is a $S$ cell and $A$ is $S$ cocomplete.
+\end{definition}
+\begin{prop}
+Let $y$ be a context. Then if $S G$ is $y$ presentable, it is also $y$ faintly presentable.
+
+
 ** ...Ma sono equivalenti in un GU-envelope!...
+
+We start with the simple observation that the closure under finite colimits of $A\in\Cat$ is the subcategory of $[A^\opp,\Set]$ generated by finite colimits of representables; we call this category $\widehat A$. It is clear that its opposite $(\widehat{A})^\opp$ has finite \emph{limits}; moreover, we have the following chain of isomorphisms, where $\Cat_*(\widehat{A}^\opp,\Set)$ is the category of functors $\widehat{A}^\opp\to \Set$ that commute with finite limits:
+\[
+	\boldsymbol{Ind}(\widehat{A}) \cong \Cat_*(\widehat{A}^\opp,\Set)\cong [A^\opp,\Set];
+\]
+in other words, \emph{there exists an object $\widehat{A}$ such that} $\boldsymbol{Ind}(\widehat A)\cong P A$.
+
+This amounts to a factorization of $y_A : A \to P A$ as a composition $A\to \widehat A \to S \widehat A\cong P A$, naturally in $A\in\cK$. This will turn out to be a fundamental property, in that the definition of a Gabriel\hyp{}Ulmer envelope relative to a context $y$ amounts to the same ``factorization of $P$ along $S$''. More precisely, we can give the following definition:
+\begin{definition}[\gu envelope]\label{guenvelope}
+	A \emph{Gabriel\hyp{}Ulmer envelope} (\emph{\gu envelope} for short) relative to a context $y : S\to P$ consists of an additional relative \kz{} denoted $\widehat{ - }$ with unit $\iota_A : A\to \widehat A$ such that $ \alpha_{\hat A} : \widehat A \to S(\widehat A)$ exhibits the left extension of $y_G$ along $\iota_A$. In particular this means that the diagram
+	\[
+		\vcenter{\xymatrix{
+		&A\ar[dr]_{ \alpha_{\hat A}\iota_A}\ar[dl]_{\iota_A}&\\
+		\widehat A\ar[rr]_{ \alpha_{\hat A}} && S \widehat A \cong P A
+		\ar@/^1.5pc/(15,0);(36,-10)^{y_A}
+		}}
+	\]
+	is filled by an invertible 2-cell $y_A \cong  \alpha_{\hat A}\iota_A$.
+\end{definition}
+Notice that the 2-category $\Cat$ has a \gu envelope, relative to the standard context $\boldsymbol{Ind}_\omega\to [ - ^\opp,\Set]$, defined sending $A$ into its finite colimit completion $\widehat A$.
+\begin{rmk}
+	If $L\dashv R$ is an adjunction in $\Cat$, a well-known sufficient condition so that $L$ preserves $\alpha$-presentable objects is that $R$ commutes with $\alpha$-filtered colimits.
+	This simple observation, together with the definition of $S$-cell, motivates the following definition.
+\end{rmk}
+
+
 ** ...che è esattamente il setting dove vale GU
+
+Gabriel\hyp{}Ulmer duality builds an a bi\hyp{}equivalence
+\[
+	y\textsf{-Mod} : \text{Lex}^\opp \leftrightarrows \text{LFP} : y\textsf{-Th}
+\]
+between the 2-category of small finitely complete categories, finite limit preserving functors, and natural transformations, and the 2-category $\one{Lfp}$ of locally finitely presentable categories, finitary right adjoint functors and natural transformations.
+
+The idea is that an object $C\in\text{Lex}$ is a ``theory'', whose category of models $\text{Lex}(C,\Set)$ is locally finitely presentable. Gabriel\hyp{}Ulmer duality says that all locally finitely presentable categories arise in this way, as it is possible to extract the theory of which a given $A\in\text{LFP}$ is the category of models of.
+\begin{definition}[The 2-category $\text{Lex}(y)$]
+	Let $y : S\To P$ be a Yoneda context on $\cK$, and $\widehat{ - }$ a \gu envelope on $\cK$, that will remain implicit in the discussion. We define the 2-category $\text{Lex}(y)$ having 0-cells the $\widehat{ - }$-cocomplete objects, 1-cells the $\widehat{ - }$-cells, and all 2-cells between them.
+\end{definition}
+\begin{definition}[The 2-category $\text{LFP}({y})$]
+	The objects of the 2-category $\text{LFP}({y})$ are $y$-presentable objects of $\cK$: by our \autoref{the-main}, this class coincides with $y$-accessible and cocomplete 0-cells; 1-cells are right adjoints that are $S$-cells according to \autoref{essecells}, with all 2-cells of $\cK$ between them.
+\end{definition}
+\begin{remark}
+	If $A$ is $y$-presentable, then $A\cong S G$, and $A$ is a reflection on $P (\bar G)$, so that there is a fully faithful right adjoint $L\dashv i : S G\to P(\bar G)$; it is easy to see that we can always reduce to the case where $\bar G = G$: since $P\bar G$ is $P$-cocomplete, the composition $i \circ \alpha_G$ admits a Yoneda extension $I : P G\to P \bar G$, and the composition $L \circ I$ determines a reflection of $P G$ onto $S G \cong A$.
+\end{remark}
+\begin{theorem}[Gabriel\hyp{}Ulmer duality]\label{guduality}
+	Let $y : S\To P$ be a context on $\cK$, with $S$ climbable and assume that there exist an absorbing \gu envelope relative to $y$. Then there is a bi-adjunction
+	\[
+		y\textsf{-Mod} : \text{Lex}(y)^\opp \rightleftarrows \text{LFP}(y) : y\textsf{-Th}
+	\]
+	which is in fact a bi-equivalence of 2-categories.
+\end{theorem}
+
 ** Esempi, tantissimi esempi
+
+*** 
+*** 
+*** 
+*** 
+*** 
+*** 
+*** 
+*** 
+*** 
+
 ** Long term goal: derivatori e infty-categorie

@@ -1,4 +1,4 @@
-% Created 2018-11-02 ven 23:50
+% Created 2018-11-12 lun 15:37
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -14,16 +14,19 @@
 \usepackage{amssymb}
 \usepackage{capt-of}
 \usepackage{hyperref}
-\def\C{\mathbf{C}}
+\usepackage{graphicx}
+\usepackage{eucal, hyphenat}
+\usepackage{tikz-cd}
+\hyphenation{mo-no-i-da-le}
+\def\C{\mathcal{C}}
+\usepackage[all,2cell]{xy}\UseAllTwocells
 \def\Cat{\mathsf{Cat}}
-\def\leeft{\text{lift}}
-\def\xto#1{\xrightarrow{#1}}\usepackage[all,2cell]{xy}
-\newcommand{\deduction}[4]{
-\begin{array}{c}
-#1 \to #2 \\ \hline
-#3 \to #4
-\end{array}
-}
+\def\Set{\mathsf{Set}}
+\def\xto#1{\xrightarrow{#1}}
+\def\xot#1{\xleftarrow{#1}}
+\def\To{\Rightarrow}
+\usepackage[all,2cell]{xy}
+\newcommand{\deduction}[4]{\begin{array}{c} #1 \to #2 \\ \hline #3 \to #4 \end{array}}
 \newcommand{\Nearrow}{\rotatebox[origin=c]{45}{$\Rightarrow$}}  % ↗
 \newcommand{\Nwarrow}{\rotatebox[origin=c]{135}{$\Rightarrow$}} % ↖
 \newcommand{\Searrow}{\rotatebox[origin=c]{-45}{$\Rightarrow$}} % ↘
@@ -32,17 +35,17 @@
 \newcommand{\Narrow}{\rotatebox[origin=c] {90}{$\Rightarrow$}}
 \usepackage{turnstile}
 \newcommand{\adjunct}[2]{\nsststile{#2}{#1}}
-\def\opp{\op}
-\def\co{\co}
-\def\coop{\text{coop}}
-\def\rift{\text{rift}}
-\def\leeft{\text{lift}} % `lift is already something!
-\def\lan{\text{lan}}
-\def\ran{\text{ran}}
-\def\Rift{\text{Rift}}
-\def\Lift{\text{Lift}}
-\def\Ran{\text{Ran}}
-\def\Lan{\text{Lan}}
+\def\opp{\mathrm{op}}
+\def\co{\mathrm{co}}
+\def\coop{\mathrm{coop}}
+\def\rift{\mathrm{rift}}
+\def\leeft{\mathrm{lift}} % `lift is already something!
+\def\lan{\mathrm{lan}}
+\def\ran{\mathrm{ran}}
+\def\Rift{\mathrm{Rift}}
+\def\Lift{\mathrm{Lift}}
+\def\Ran{\mathrm{Ran}}
+\def\Lan{\mathrm{Lan}}
 \def\RIFT{\textsc{rift}}
 \def\LIFT{\textsc{lift}}
 \def\RAN{\textsc{ran}}
@@ -50,20 +53,13 @@
 \usepackage{amsthm}
 \theoremstyle{reference}
 \newtheorem{theorem}{Theorem}[section]
-\newtheorem{conjec}[theorem]{Conjecture}
-\newtheorem{corollary}[theorem]{Corollary}
-\newtheorem{counterex}[theorem]{Counterexample}
-\newtheorem{definition}[theorem]{Definition}
-\newtheorem{example}[theorem]{Example}
-\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{definition}[theorem]{Definizione}
+\newtheorem{axiom}[theorem]{Assioma}
 \newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{notat}[theorem]{Notation}
-\newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{question}[theorem]{Question}
-\newtheorem{remark}[theorem]{Remark}
-\newtheorem{scholium}[theorem]{Scholium}
-\newtheorem{setting}[theorem]{Setting}
-\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{proposition}[theorem]{Proposizione}
+\newtheorem{remark}[theorem]{Osservazione}
+\hypersetup{colorlinks=true, linkcolor=black}
+\renewcommand{\bibname}{Alcuni riferimenti}
 \author{Fosco Loregian}
 \date{\today}
 \title{Strutture di Yoneda e accessibilità}
@@ -79,13 +75,12 @@
 \maketitle
 \tableofcontents
 
-
-
+\input{the-bib.bbl}
 
 \section{Lecture I: Introduzione}
-\label{sec:orgcba1c6d}
+\label{sec:org2468683}
 \subsection{2-categorie: def di partenza}
-\label{sec:orgf326424}
+\label{sec:orgdb57cf0}
 Una \emph{2-categoria} è ``come una categoria, ma gli hom-set
 sono categorie'': si tratta di un certo tipo di struttura
 2-dimensionale che soddisfa le seguenti ipotesi
@@ -97,19 +92,21 @@ insieme di morfismi (o \emph{1-celle}) \({\cal K}(X,Y)\)
 \item E' data una regola di composizione
 \end{enumerate}
 $$ c_{XYZ} : {\cal K}(X,Y)\times {\cal K}(Y,Z) \to {\cal
-K}(X,Z) $$ che sia \emph{bifuntoriale}, ossia tale che valga la
-``regola di interscambio di Godement'': 
-
-$$ ... $$ 
-
-Una 2-categoria è una categoria arricchita su \(\Cat\),
-guardata come base monoidale (chiusa): ogni \(\Cat({\cal
-C},{\cal D})\) è a sua volta una categoria, i cui oggetti
-sono i funtori \(F,G : \C\to {\cal D}\) e i cui morfismi
-sono le trasformazioni naturali. Ciascuna composizione è
-``bilineare'', ed esiste una nozione di funtore arricchito
-(\emph{2-funtore stretto}) e di trasformazione naturale
-arricchita (\emph{trasf. naturale stretta}).
+K}(X,Z) $$ che sia \emph{bifuntoriale}, ossia tale esista una
+regola di composizione orizzontale, una verticale, e tali
+che per esse valga la ``regola di interscambio di
+Godement'': $$ \xymatrix{A \ruppertwocell{\beta}
+\ar[r]\rlowertwocell{\delta}& B \ruppertwocell{\alpha}
+\ar[r]\rlowertwocell{\gamma}& C} $$ $$ (\alpha *\beta)\circ
+(\gamma * \delta) = (\gamma \circ\alpha) * (\delta \circ
+\beta)$$ Una 2-categoria è una categoria arricchita su
+\(\Cat\), guardata come base monoidale (chiusa): ogni
+\(\Cat({\cal C},{\cal D})\) è a sua volta una categoria, i cui
+oggetti sono i funtori \(F,G : \C\to {\cal D}\) e i cui
+morfismi sono le trasformazioni naturali. Ciascuna
+composizione è ``bilineare'', ed esiste una nozione di
+funtore arricchito (\emph{2-funtore stretto}) e di trasformazione
+naturale arricchita (\emph{trasf. naturale stretta}).
 
 La teoria delle 2-categorie coincide allora con la teoria
 delle \(\Cat\) -categorie? In parte sì: un gran numero di
@@ -125,56 +122,59 @@ quelle che sostengono la teoria delle \(\Cat\) -categorie.
 
 Un esempio su tutti: nei termini di una \(\Cat\) -categoria è
 complicato (o impossibile?) descrivere come faccia un
-diagramma a commutare \textbf{a meno} di una trasformazione
-naturale -invertibile o meno.
+diagramma a commutare \emph{a meno di una trasformazione
+naturale} -invertibile o meno.
 
 Alcune osservazioni:
 
 \begin{itemize}
 \item Ogni 2-categoria dà luogo ad altre 2-categorie \(\mathcal
-  K^\co, \mathcal K^\op\) dove rispettivamente
-sono state invertite le frecce in dimensione 2 ed 1. Più
-formalmente, \(\mathcal K^\co\) è una 2-categoria
-ottenuta da \(\mathcal K\) che ha gli stessi oggetti e dove
-\(\mathcal K^\co(X,Y) = \mathcal K(X,Y)^\op\), e
-\(\mathcal K^\op\) è una 2-categoria con gli stessi
-oggetti di \(\mathcal K\), dove \(\mathcal K^\op(X,Y) =
-  \mathcal K(Y,X)\). Chiaramente, \((\mathcal
-  K^\op)^\co = (\mathcal K^\co)^\op
-  = \mathcal K^\text{coop}\).
+  K^\co, \mathcal K^\opp\) dove rispettivamente sono state
+invertite le frecce in dimensione 2 ed 1. Più formalmente,
+\(\mathcal K^\co\) è una 2-categoria ottenuta da \(\mathcal
+  K\) che ha gli stessi oggetti e dove \(\mathcal K^\co(X,Y) =
+  \mathcal K(X,Y)^\opp\), e \(\mathcal K^\opp\) è una
+2-categoria con gli stessi oggetti di \(\mathcal K\), dove
+\(\mathcal K^\opp(X,Y) = \mathcal K(Y,X)\). Chiaramente,
+\((\mathcal K^\opp)^\co = (\mathcal K^\co)^\opp = \mathcal
+  K^\text{coop}\).
+\item Gli oggetti di \(\mathcal K\) si dicono \emph{0-celle}; gli
+oggetti delle categorie \({\mathcal K}(X,Y)\) si dicono
+1-celle (di dominio \(X\) e codominio \(Y\)); i morfismi delle
+categorie \({\mathcal K}(X,Y)\) si dicono 2-celle di
+\(\mathcal K\).
 \end{itemize}
 
 \subsection{Estensioni e lift di Kan}
-\label{sec:org25a80de}
+\label{sec:org15cd52d}
 
-\textbf{Definizione.} Let \(B \xto{f} A \xot{g}C\) a cospan of
-1-cells in \({\mathcal K}\). A \emph{left lifting} of \(f\) along \(g\)
-consists of a pair \(\langle\leeft_gf,\eta\rangle\) (often
-denoted simply as \(\leeft_gf\)) initial among the commutative
+\begin{definition}
+Let $B \xto{f} A \xot{g}C$ a cospan of
+1-cells in ${\mathcal K}$. A /left lifting/ of $f$ along $g$
+consists of a pair $\langle\leeft_gf,\eta\rangle$ (often
+denoted simply as $\leeft_gf$) initial among the commutative
 triangles like the one below: 
 \[
 \vcenter{\xymatrix@C=1.4cm{& C\ar[d]^g \\ B\ar[r]_f
 \ar@{.>}[ur]^{\leeft_gf} & \ar@{}[ul]|(.3){\Nearrow\eta} A}}
 \qquad \deduction{\leeft_gf}{h}{f}{gh} 
 \] In other words,
-composition with \(\eta \colon f \To g \circ \leeft_gf\)
-determines a bijection \(\bar\gamma \mapsto (g *
-\bar\gamma)\circ \eta\) between 2-cells \(\leeft_gf
-\xto{\bar\gamma} h\) and 2-cells \(f \to gh\).
+composition with $\eta \colon f \To g \circ \leeft_gf$
+determines a bijection $\bar\gamma \mapsto (g *
+\bar\gamma)\circ \eta$ between 2-cells $\leeft_gf
+\xto{\bar\gamma} h$ and 2-cells $f \to gh$.
+\end{definition}
 
-One can define \emph{right liftings} similarly, reversing
-only the direction of the 2-cell in the diagram above, and
-consequently the universal property, and \emph{left} and
-\emph{right extensions} reversing, respectively, only the
-directions of 1-cells or the direction of both 1- and
-2-cells in the diagram above. It is then clear that left
-extensions in \({\mathcal K}\) are left liftings in \({\mathcal
-K}^\opp\), right liftings in \({\mathcal K}\) are left liftings
-in \({\mathcal K}^\co\), and right extensions are left
-liftings in \({\mathcal K}^\coop\).
-
-The situation is conveniently depicted in the following array of universal
-objects:
+Si può anche definire un \emph{lifting destro} in maniera
+simile, rovesciando la direzione delle sole 2-celle nel
+diagramma precedente, e le \emph{estensioni sinistre} e
+\emph{destre} rispettivamente rovesciando solo la direzione
+delle 1-celle, o la direzione di entrambe nel diagramma
+precedente. E' quindi chiaro che le estensioni sinistre sono
+lifting sinistri in \({\mathcal K}^\opp\), i lifting destri in
+\({\mathcal K}\) sono lifting sinistri in \({\mathcal K}^\co\),
+e le estensioni destre sono lifting sinistri in \({\mathcal
+K}^\coop\).
 
 \begin{center}
 \begin{array}{|c|c|}\hline \xymatrix{A \ar@{}[dr]|(.3){\Swarrow\eta}\ar[d]_g
@@ -189,8 +189,12 @@ objects:
 \end{array}
 \end{center}
 
+\begin{definition}[Estensione/lift preservato/assoluto]
+
+\end{definition}
+
 \subsection{Caratterizzazione degli aggiunti mediante estensioni e lift}
-\label{sec:org26b90bd}
+\label{sec:org693d804}
 
 Qui ci proponiamo di dimostrare una caratterizzazione degli
 aggiunti in termini di lift ed estensioni. Si tratta di un
@@ -198,64 +202,650 @@ esercizio elementare nelle proprietà universali in una
 2-categoria, che svolgiamo nei dettagli per fare entrare il
 lettore nella semantica delle 2-categorie.
 
-\begin{prop}
-ABCde f
-\end{prop}
+Le seguenti condizioni sono equivalenti per una coppia di
+1-celle \(f : A \leftrightarrows B : g\):
+\begin{itemize}
+\item  $f \dashv g$ con unità $\eta$ e counità $\epsilon$;
+\item  La coppia $\langle g,\eta\rangle$ esibisce la Lan assoluta di $1$ lungo $f$
+\item  La coppia $\langle g,\eta\rangle$ esibisce la Lan di $1$ lungo $f$, ed $f$ la preserva.
+\end{itemize}
+
+\begin{proof}
+E' evidente che 2 implica 3; mostriamo che 1 implica 2. Dato il diagramma
+$$
+\xymatrix{
+A \ar@{=}[r]\ar@{}[dr]|(.3){\Swarrow\eta}\ar[d]_f & A  \\
+B \ar[ur]_g & 
+}
+$$
+dobbiamo mostrare che è una Lan assoluta. Del resto,  se $f \dashv g$, dato $h : B\to A$ con una trasformazione $\alpha : 1\To hf$, le identità triangolari implicano che la composizione $\bar\alpha : g \overset{\alpha * g} \To hfg \overset{h * \epsilon}\To h$ sia tale che $(\bar \alpha * f)\circ \eta = \alpha$. Tale scelta è unica, perché se $\bar\alpha$ e $\hat\alpha$ hanno la stessa proprietà, basta incollare la counità per vedere che $\bar \alpha * g = \hat\alpha * g$:
+$$
+\vcenter{\xymatrix{
+& A \rrlowertwocell<\omit>{<3>\eta} \ar[dr]_f\ar@{=}[rr] & & A \\
+B \rruppertwocell<\omit>{<-3>\epsilon} \ar[ur]^g\ar@{=}[rr] && B \ar[ur]^g\urlowertwocell{\bar\alpha} & 
+}}
+\quad = \quad
+\vcenter{\xymatrix{
+& A \rrlowertwocell<\omit>{<3>\eta} \ar[dr]_f\ar@{=}[rr] & & A \\
+B \rruppertwocell<\omit>{<-3>\epsilon} \ar[ur]^g\ar@{=}[rr] && B \ar[ur]^g\urlowertwocell{\hat\alpha} & 
+}}
+$$
+Un argomento simile mostra che l'estensione è assoluta: dato un diagramma come
+\[
+\xymatrix{
+A \ar@{=}[r]\ar[d]_f & A \ar[r]^u  & X \\
+B  \ar@/_1pc/[urr]_h \ar[ur]_g& &
+}
+\]
+riempito da una 2-cella $\alpha : u \To hf$, va mostrato che esiste un'unica $\bar\alpha : ug\To h$ tale che $\alpha = (\bar\alpha * f)\circ(u * \eta)$. Tale freccia è presto vista essere $(h * \epsilon)\circ(\alpha *g)$.
+
+Ora mostriamo che 3 implica 1. Se $\langle fg, f *\eta\rangle$ esibisce $\lan_ff$, allora è automatico che esista un'unica $\epsilon : fg\To 1$ tale che $(\epsilon * f)\circ (f * \eta) = 1_f$; per quanto riguarda l'altra identità triangolare\dots
+\end{proof}
+Valgono condizioni duali che si possono riassumere nel seguente specchietto:
+\begin{center}
+\includegraphics{adjs}
+\end{center}
 
 \subsection{Il sacro pasting lemma}
-\label{sec:org46eb4aa}
+\label{sec:org897dd43}
+
+Uno dei trucchi tecnici più utili è il seguente: si chiama
+\emph{pasting lemma}. La dimostrazione si fa verificando la
+proprietà universale giusta.
+\begin{proposition}
+Dato un diagramma come
+$$
+\begin{tikzcd}
+|[alias=a]|A \ar[r,"h"]\ar[d,"f"']&|[alias=d]| D &|[alias=a']| A \ar[d]\ar[r,"h"]&|[alias=d']| D \\
+B \ar[d,"g"']\ar[ur]&&|[alias=b']| B \ar[d]\ar[ur]\\
+|[alias=c]|C \ar[bend right,uur] && C\ar[bend right,uur] 
+\end{tikzcd}
+$$
+se il triangolo esterno e quello superiore sono estensioni di Kan, tale è anche il rimanente triangolo.
+\end{proposition}
+\begin{proof}
+  Esercizio.
+\end{proof}
 \subsection{Strutture di Yoneda e FCT: il lemma di Yoneda come pilastro del pensiero occidentale}
-\label{sec:org4f6eee9}
+\label{sec:org55a4f6d}
+
 \subsubsection{Yoneda nel senso classico; Yoneda "per i baby geometri"}
-\label{sec:org48a76f8}
+\label{sec:org8062c05}
+
+Il lemma di Yoneda come viene insegnato nelle scuole
+inferiori, asserisce che dato un prefascio \(F : \C^\opp \to
+\Set\) e un oggetto \(c\in\ C\) esiste un isomorfismo naturale
+in \(c\) $$ Nat(y(c), F)\cong Fc $$ dove \(y : \C \to
+[\C^\opp,\Set]\) è l'embedding di Yoneda che manda \(c\) nel
+prefascio \(\C(-,c)\).
+
+Ora, lungi dall’essere un mero teorema di matemaitca, questo
+asserto costituisce uno dei punti più elevati raggiunti dal
+pensiero occidentale nella sua totalità. Diverse generazioni
+di studio sono state completamente insufficienti a
+disvelarne le incredibili conseguenze.
+
+Quello che facciamo noi ora è
+
+\begin{itemize}
+\item Scrivere il lemma di Yoneda in forma fibrazionale;
+\item Capire in che cosa consiste quando i prefasci vengono
+interpretati come fibrazioni
+\end{itemize}
+
+Per farlo ci avvaliamo di questo risultato:
+\begin{proposition}
+Esiste un’equcat tra $[\C^\opp,\Set]$ (la categoria dei
+prefasci su $\C$) e la categoria delle \emph{fibrazioni discrete}
+su $\C$ (una fibrazione discreta è un funtore $p : \mathcal
+E \to \C$ tale che ogni fibra $p^\leftarrow(c)$ sia una
+categoria discreta). 
+\end{proposition}
+\begin{proof}
+E' sufficiente dimostrare che esiste una coppia di funtori
+in direzioni opposte 
+$$ [\C^\opp,\Set] \leftrightarrows
+\text{DFib}(\C) $$ 
+le cui composizioni nei due sensi siano
+isomorfe alle rispettive identità (perché?). Per farlo,
+definiamo ${\mathfrak E} : [\C^\opp,\Set] \to
+\text{DFib}(\C)$ mandando $P$ nella sua categoria degli
+elementi; in direzione opposta, definiamo ${\mathfrak F} :
+\text{DFib}(\C) \to [\C^\opp,\Set]$ mandando $p : \mathcal
+E\to \C$ nel prefascio determinato da $\lambda
+c.p^\leftarrow(c)$ (dal momento che $p$ è una fibrazione
+discreta, questa corrispondenza è davvero un funtore). E'
+evidente che $\mathfrak{EF}\cong 1$, così come
+$\mathfrak{FE}\cong 1$.
+\end{proof}
+In tale contesto il lemma di Yoneda diventa il seguente enunciato:
+\begin{lemma}[Yoneda fibrazionale]
+C'è una biiezione
+$$\left\{
+{\small 
+\vcenter{
+  \xymatrix@!=3mm{
+  \C/c \ar@{.>}[rr]\ar[dr]_U && \mathfrak E(P)\ar[dl]^\pi \\
+  & \C & 
+  }
+}}
+\right\} \cong Pc$$
+tra le frecce tratteggiate e gli elementi di $Pc$.
+\end{lemma}
+\begin{proof}
+Esercizio.
+\end{proof}
+
 \subsubsection{Di cosa parliamo quando parliamo di teoria delle categorie?}
-\label{sec:org12570a5}
+\label{sec:org0c00629}
+
+Che cos’è la teoria delle categorie? Nelle parole di John Gray,
+\begin{quote}
+The purpose of category theory is to try to describe certain general
+aspects of the structure of mathematics. Since category theory
+is also part of mathematics, this categorical type of description
+should apply to it as well as to other parts of mathematics.
+
+[O]ne should attempt to identify those properties that enable one
+to do the "structural parts of category theory".
+\end{quote}
+Che cosa significa questo? Sostanzialmente che la teoria
+delle categorie "astratta" è quell’insieme di asserti che
+riguardano il comportamento di strutture che si comportano
+come la 2-categoria paradigmatica \(\Cat\) (allo stesso modo,
+la teoria delle categorie "concreta" consta di quegli
+asserti che riguardano categorie che si comportano come
+quelle di oggetti matematici quotidiani: la categoria degli
+insiemi, quella dei gruppi abeliani, dei monoidi, degli
+insiemi o spazi vettoriali con una azione di gruppo. . . ).
+Analogamente a quel che succede quando si usa la teoria
+delle categorie per chiarificare la matematica classica (in
+modo che le proprietà degli oggetti matematici diventino
+proprietà universali, e che queste proprietà universali
+siano godute dagli oggetti di una categoria, definendo, ad
+esempio, la semantica funtoriale delle teorie algebriche),
+la teoria delle 2-categorie fa lo stesso lavoro con la
+teoria delle categorie. Alle entità fondamentali della
+teoria delle categorie (gli aggiunti e il loro calcolo, le
+monadi, le estensioni di Kan, il calcolo dei co/limiti\dots{})
+viene data licenza di esistere non più nella 2-categoria
+\(\Cat\), ma in una generica 2-categoria \(\mathcal K\). La
+nozione di struttura di Yoneda nasce per dare conto di
+queste affermazioni e concretizzarle in una teoria esplicita
+e computabile: prendiamo come assiomi fondamentali di questa
+religione il fatto che
+
+\begin{itemize}
+\item la teoria delle categorie coincide con l’insieme dei
+corollari del lemma di Yoneda;
+\item E’ possibile enunciare un insieme finito di assiomi capaci
+di catturare le varie facce del lemma di Yoneda;
+\item L’intero comparto di tecniche della CT formale nasce per
+rispondere a questa domanda: qual è il minimo amount di
+struttura addizionale da mettere su una 2-categoria
+\(\mathcal K\) per fare in modo che esistano, in \(\mathcal
+  K\), delle 1-celle che giocano lo stesso ruolo delle
+fibrazioni discrete, dando a \(\mathcal K\) una versione
+fibrazionale del lemma di Yoneda?
+\end{itemize}
+
 \subsection{Assiomi di struttura di Yoneda}
-\label{sec:orga3a215c}
-\subsection{La vera natura di P: una KZ monade con opportune proprietà}
-\label{sec:org8a07368}
-\subsection{Teoremi validi nelle strutture di Yoneda}
-\label{sec:orgb9f0a24}
+\label{sec:org1708580}
+
+Gli assiomi sono 4. Seguiamo questo pattern:
+
+\begin{itemize}
+\item Come zeresimo passo, listiamo i dati che K deve possedere;
+questi dati formano un telaio di Yoneda.
+\item Prima enunciamo l’assioma;
+\item Poi mostriamo perché è vero in \(\Cat\) (la risposta sarà
+che l’assioma è una conseguenza del lemma di Yoneda, in un
+modo o nell’altro);
+\item Poi enucleiamo alcuni corollari di quell’assioma.
+\end{itemize}
+
+\begin{definition}
+Affinché K abbia un telaio di Yoneda essa deve essere
+equipaggiata di questi dati:
+\begin{itemize}
+\item Un ideale di morfismi "ammissibili"; le frecce identiche nell’ideale specificano gli \emph{oggetti} ammissibili.
+\item Per ogni oggetto ammissibile $A$ una "freccia di Yoneda" $y_A : A \to P A$ verso un oggetto che chiamiamo "oggetto dei prefasci" di $A$;
+\item per ogni morfismo ammissibile $f : A\to B$ con dominio ammissibile un triangolo
+$$
+\xymatrix{
+  &A \ar[dr]^f\ar[dl]_{y_A}&\\
+PA \urlowertwocell<\omit>{<3>\quad\chi^f}&&\ar[ll]^{B(f,1)} B
+}
+$$
+\end{itemize}
+\end{definition}
+\begin{axiom}
+La coppia $\langle B(f,1), \chi^f\rangle$ esibisce $\lan_fy_A$.
+\end{axiom}
+Perché è vero in \(\Cat\)? E' il lemma di Yoneda, nella forma
+che asserisce l'esistenza di un funtore \(N_f = B(f,1) :
+\lambda b.(\lambda a. B(fa,b))\), detto \emph{$f$ nervo}. Ad
+esempio, quando \(f : \Delta \to \Cat\) è il funtore che
+realizza ogni ordinale finito come una categoria,
+\(\Cat(f,A)\) è il \emph{nervo} della categoria \(A\in\Cat\),
+che manda \(n\) in \(\Cat([n],A)\). 
+\begin{proof}
+Bisogna mostrare l'isomorfismo $$[B,PA](N_f,G) \cong
+[A,PA](y_A,G\circ f).$$
+Per farlo, è sufficiente considerare l'isomorfismo integrale
+\begin{align*}
+[B,PA](N_f,G) &\cong \int_b PA(B(f,b),Gb)\\
+&\cong \int_{ab} \Set(B(fa,b), G(b)(a))\\
+&\cong G(fa)(a)\\
+[A,PA](y_A,G\circ f) & \cong \int_a PA(y_A(a), G(fa))\\
+&\cong G(fa)(a).
+\end{align*}
+E' ovviamente possibile una dimostrazione diretta, con la proprietà universale: la lasciamo come esercizio.
+\end{proof}
+\begin{axiom}
+La coppia $\langle f, \chi^f\rangle$ esibisce $\leeft_{B(f,1)}y_A$.
+\end{axiom}
+Perché è vero in \(\Cat\)? E' il lemma di Yoneda, nella forma che asserisce che vale l'isomorfismo
+\begin{align*} 
+[A,PA]\big( y_A, N_f\circ g \big) &\cong \int_{a'}[A^\opp,\Set]\big(y_A{a'}, N_f\circ g(a')\big)\\ 
+& \cong \int_{a'}[A^\opp,\Set]\big( y_A{a'}, B(f - ,ga')\big)\\ 
+&\cong \int_{a'}B(fa',ga')\\ &\cong [A,B](f,g)
+\end{align*}
+E' ovviamente possibile una dimostrazione diretta, con la proprietà universale: la lasciamo come esercizio.
+\begin{axiom}
+Given a pair of composable 1-cells $A \xto{f} B\xto{g} C$, the
+pasting of 2-cells
+$$ \begin{tikzcd}[column sep=large, row sep=large] A\ar[d, "f"']\ar[rr, "y_A"{name=yonA}] && P A\\ B \ar[r, "y_B"{name=yonB}]\ar[d, "g"'] & P B\ar[ur, "P f"']\\ C\ar[ur, "{C(g,1)}"'] \ar[from=yonA, to=yonB, shorten >=2mm, shorten <=4mm, Rightarrow, "\chi^{y_B f}"] \ar[from=yonB, shorten >=4mm, shorten <=4mm, Rightarrow, "\chi^g"] \end{tikzcd} $$
+exhibits $\lan_{gf}y_A = C(gf,1)$.
+\end{axiom}
+Perché è vero in \(\Cat\)? Pasting lemma delle estensioni.
+\begin{axiom}
+La coppia $\langle 1_{PA}, 1_{y_A} \rangle$ esibisce $\lan_{y_A}y_A$.
+\end{axiom}
+Perché è vero in \(\Cat\)? E' il lemma di Yoneda, nella forma che asserisce che l'embedding di Yoneda è un funtore \emph{denso}.
+\begin{proof}
+Si potrebbe fare con gli integrali usando ancora la formula
+puntuale per le Lan, ma una dimostrazione diretta è
+illuminante. Srotolando la proprietà universale, va
+dimostrato che una trasformazione naturale $\alpha : 1_{PA}
+\To H$ è univocamente determinata dalla sua restrizione alle
+componenti rappresentabili (nell'immagine essenziale di
+$y_A$, che sappiamo già essere pienamente fedele). Ora, data
+una $\beta : y_A\To Hy_A$ dobbiamo dimostrare che essa è
+$\alpha *y_A$ per un'unica $\alpha : 1\To H$; per farlo
+possiamo ricordare che ogni $P : A^\opp\to \Set$ è colimite
+di rappresentabili, e precisamente $P \cong
+\varinjlim\!{}^Py_A$; sicché la componente di $\beta$ si può
+estendere a
+$$
+P \cong \varinjlim\!{}^P y_A \xto{\varinjlim{}^P\beta} \varinjlim\!{}^P H y_A \to H(\varinjlim\!{}^P  y_A ) \cong HP
+$$
+Che queste siano le componenti di una trasformazione naturale $1 \To H$ è presto verificato.
+\end{proof}
+
+
+Ora possiamo definire diverse nozioni che non avevano un
+analogo controllabile prima di scoprire che \(\mathcal K\)
+supportava una teoria delle categorie.
+
+\begin{definition}[Estensioni puntuali e assolute]
+Blah 
+\end{definition}
+\begin{definition}[Caratterizzazione puntuale degli aggiunti]
+Blah 
+\end{definition}
+
+\subsection{Esempi}
+\label{sec:orgbb0cebf}
+
+Raccogliamo degli esempi di strutture di Yoneda
+
+\subsubsection{Categorie arricchite}
+\label{sec:org60c4d9b}
+
+Sulla categoria \(\mathcal V\text{-Cat}\) delle categorie
+  arricchite su una base monoidale \(\mathcal V\) c'è una
+  struttura di Yoneda dove \(y_A\) è la versione arricchita
+  dell'embedding classico. (Esiste qualcosa di analogo anche
+  per categorie arricchite su una bicategoria?)
+
+\subsubsection{Categorie interne}
+\label{sec:org92413a0}
+
+Nella 2-categoria delle categorie interne a \(\mathcal K\)
+  (una categoria con limiti finiti, o con almeno pullback)
+  c'è una struttura di Yoneda ma fatta con le fibrazioni; ne
+  sketchiamo l'esistenza. Let \(\mathcal E\) be a finitely
+  complete category, and \(\mathcal K = \Cat(\mathcal E)\) the
+  2-category of categories internal to \(\mathcal E\). Recall
+  the definition of an internal profunctor; prove that there
+  is an equivalence $$ \mathrm{Prof}_{\mathcal E}(A,B) \cong
+  \mathrm{Prof}_{\mathcal E}(1,A^\opp\times B)$$ Prove that
+  this correspondence is natural in \(A,B\) (which covariance
+  type is it?).
+
+We define
+
+\begin{itemize}
+\item an \emph{internal full subcategory} of \(\mathcal E\) an
+object \(\mathrm{S}\) of \(\mathcal K\) with an internal
+profunctor \(s : 1 \rightsquigarrow \mathrm{S}\) inducing a
+fully faithful functor \[\mathcal K(X,\mathrm{S}) \to
+\mathrm{Prof}_{\mathcal E}(1,B)\] via precomposition. \item
+a 1-cell \(f : A\to B\) in \(\mathcal K\) \emph{admissible} when
+the profunctor corresponding to \((f/B)\) lies in the
+essential image of the functor \(\mathcal K(A^\opp\times
+B,\mathrm{S}) \to \mathrm{Prof}_{\mathcal E}(1,A^\opp\times
+B)\). call \(f^*\) this (unique) 1-cell \(A^\opp\times B \to
+\mathrm{S}\). \end{itemize} Prove that \(\mathcal K\) has a
+Yoneda structure when \(B(f,1) := \widehat{f^*} : B \to
+[A^\opp,\mathrm{S}]\) is the mate of \(f^*\), and thus \(P A :=
+[A^\opp,\mathrm{S}]\).
+
+What happens when \(\mathcal E\) is an elementary topos and
+\(\mathrm{S}=\Omega_{\mathcal E}\)? What happens when
+\(\mathcal E\) is a Grothendieck topos and \(\mathrm S =
+\mathbb{N}\) is the natural number object of \(\mathcal E\)?.
+
+\(\rhd\) Domanda aperta: esiste un teorema che "trasporta" una
+struttura di Yoneda lungo l'aggiunzione $$ \mathcal K^{(T)}
+\leftrightarrows \mathcal K $$ associata a una 2-monade su
+\(\mathcal K\)? (Già trattare il caso idempotente sarebbe
+bello)
+
+\subsubsection{Pseudofuntori e derivatori (?)}
+\label{sec:org56b2f4c}
+
+Sulla 2-categoria degli pseudofuntori \(\mathcal A \to \Cat\)
+(\(\mathcal A\) una bicategoria a caso) c'è una struttura di
+Yoneda "puntuale", definita da una opportuna contorsione
+fibrazionale.
+
+\(\rhd\) Domanda aperta: questa struttura di Yoneda si riporta
+alla 2-categoria (stretta) dei funtori \emph{stretti} \(\mathcal A
+\to \Cat\) (ora \(\mathcal A\) è una 2-categoria stretta). Come
+si trova una struttura di Yoneda sulla 2-categoria dei
+prederivatori che abbia un \emph{significato omotopico}?
+
 \subsection{La nozione di P-cocompletezza}
-\label{sec:orgc9e386a}
-\subsection{Categorie accessibili e presentabili, classicamente?}
-\label{sec:orgb7f855d}
+\label{sec:org70d3bdf}
+
+Negli assiomi di YS è nascosto il fatto che \(PA\) ha la
+proprietà universale del \emph{cocompletamento libero} di \(A\):
+dove? E' magari possibile dimostrare che un oggetto \(X\) è
+cocompleto se e solo se tutte le 1-celle \(A\to X\) si
+estendono a una aggiunzione \(PA \leftrightarrows X\)? La
+risposta è sì, ma affinché sia vero \(PA\) deve essere
+"cocompleto rispetto a sé stesso".
+
+\begin{definition}[Oggetto co/completo]
+Un oggetto $X\in \mathcal K$ si dice $P$\hyp{}\emph{cocompleto} quando in ogni diagramma
+$$
+\xymatrix{
+& PG\ar@{.>}[dr]^L & \\
+G\ar[rr]_\ell\ar[ur]^{y_A} &\ar@{}[u]|\Uparrow & X
+}
+$$
+la freccia tratteggiata esiste, e la 2-cella rende il triangolo così ottenuto una estensione puntuale.
+\end{definition}
+\begin{proposition}
+Un oggetto $X$ è $P$\hyp{}cocompleto se e solo se esiste una aggiunzione
+$$
+L : PX \leftrightarrows X : i 
+$$
+con counità invertibile (quindi se e solo se $X$ "è riflessivo in $PX$").
+\end{proposition}
+
+\subsection{La vera natura di \(P\).}
+\label{sec:orgda23700}
+
+La costruzione dei prefasci \(P\) di una struttura di Yoneda si caratterizza con queste proprietà:
+
+\begin{enumerate}
+\item E' tale che ogni \(Pf\) ha un aggiunto sinistro \(P_!f\);
+\item La corrispondenza \(f\mapsto P_!f\) definisce una pseudomonade (come una monade, ma uno pseudofuntore) e \emph{relativa} (come una monade, ma non è un endofuntore);
+\item Tale monade è \emph{lax idempotente}, ossia le sue algebre \(a : PA\to A\) sono univocamente caratterizzate dal dare una aggiunzione
+\end{enumerate}
+\[
+a : PA \leftrightarrows A : y_A
+\]
+In un recente lavoro con I. Di Liberti mostriamo che \emph{tutte} le strutture di Yoneda cocomplete nascono a questo modo.
+
 \section{Lecture II: Accessibility and Presentability in 2-categories}
-\label{sec:orge7b98a1}
+\label{sec:org8df2217}
+
 \subsection{Cosa vogliamo fare}
-\label{sec:org4881c98}
+\label{sec:org824d2fc}
+
 Le categorie accessibili e presentabili sono particolari
-oggetti della 2-categoria \(\bf CAT\); fino a che punto è possibile
-sketchare una definizione per un oggetto
-accessibile/presentabile di una 2-categoria \(\mathcal K\)? E' ancora
-possibile recuperare i teoremi classici di rappresentazione,
-che dicono come gli oggetti accessibili nascano da
-riflessioni di oggetti dei prefasci?
+oggetti della 2-categoria \(\Cat\); fino a che punto è
+possibile sketchare una definizione per un oggetto
+accessibile/presentabile di una 2-categoria \(\mathcal K\)? E'
+ancora possibile recuperare i teoremi classici di
+rappresentazione, che dicono come gli oggetti accessibili
+nascano da riflessioni di oggetti dei prefasci?
 
 E' ancora possibile enunciare e dimostrare la dualità di
-Gabriel-Ulmer, ossia la biequivalenza tra la sub-2-categoria
-degli oggetti presentabili di K e la 2-categoria degli
-"oggetti con limiti finiti"?
+Gabriel-Ulmer?
 
 \subsection{L'idea per farlo}
-\label{sec:org9dbae78}
+\label{sec:org9fc038d}
 
-Utilizzare il linguaggio delle strutture di Yoneda; il teorema classico di "rappresentazione" che dice che una categoria è presentabile se e solo se 
+Utilizzare il linguaggio delle strutture di Yoneda;
+idealmente, un oggetto di \(\mathcal K\) sarà presentabile se
+nasce da una localizzazione riflessiva di \(PA\) per qualche
+oggetto \(A\), e sarà accessibile se è della forma
+\(Ind_\alpha(G)\) per qualche "generatore" \(G\). Ci sono però
+vari problemi:
+
+\begin{enumerate}
+\item Che ruolo hanno i numeri cardinali in questa definizione?
+\end{enumerate}
+La risposta sarà: sono importanti, ma possiamo
+nasconderli sotto il tappeto.
+\begin{enumerate}
+\item Qual è il significato di "accessibile" in un contesto
+\end{enumerate}
+dove non si può guardare dentro gli oggetti, e quindi non
+si può dire che "esiste un generatore"?
+
+\subsection{Categorie accessibili e presentabili, classicamente.}
+\label{sec:org50d9e4a}
+
+\begin{definition}[Categoria accessibile]
+Una categoria $\mathcal K$ si dice $\alpha$\hyp{}accessibile se 
+\begin{itemize}
+\item Ha i colimiti $\alpha$\hyp{}diretti;
+\item Ha un insieme di oggetti $\alpha$\hyp{}compatti che genera $\mathcal K$ per colimiti $\alpha$\hyp{}diretti.
+\end{itemize}
+\end{definition}
+\begin{definition}[Categoria presentabile]
+Una categoria $\mathcal K$ si dice $\alpha$\hyp{}presentabile se è $\alpha$\hyp{}accessibile e cocompleta.
+\end{definition}
+\begin{definition}[Teorema di rappresentazione, I]
+Equivalent characterizations include that $C$ is $\alpha$\hyp{}accessible iff:
+\begin{itemize}
+\item it is the category of models (in Set) of some small sketch.
+\item it is of the form $Ind_\alpha(S)$ for $S$ small, i.e. the $\alpha$\hyp{}ind-completion of a small category, for some $\alpha$.
+\item it is of the form $\alpha\text{-Flat}(S)$ for $S$ small and some $\alpha$, i.e. the category of $\alpha$\hyp{}flat functors from some small category to $Set$.
+\end{itemize}
+\end{definition}
+\begin{definition}[Teorema di rappresentazione, II]
+Equivalentemente, una categoria $\mathcal K$ è presentabile se una, e quindi tutte, di queste condizioni è soddisfatta:
+\begin{itemize}
+\item $\mathcal K$ è la categoria dei modelli di un limit sketch;
+\item $\mathcal K$ è equivalente alla categoria $[C,\Set]$ dei funtori da $C$ a $\Set$ che preservano gli $\alpha$\hyp{}limiti;
+\item $\mathcal K$ è una localizzazione riflessiva, accessibilmente immersa, di una categoria di prefasci.
+\end{itemize}
+\end{definition}
+\begin{definition}[Dualità di Gabriel-Ulmer]
+La dualità di Gabriel-Ulmer asserisce che la 2-categoria
+$\sf Lex$ delle categorie con limiti finiti e la 2-categoria
+$\sf Prs$ delle categorie $\aleph_0$\hyp{}presentabili sono
+biequivalenti (ricorda la definizione di biequivalenza).
+\end{definition}
+Si tratta di costruire una coppia di funtori
+$$
+P : \mathsf{Lex} \leftrightarrows \mathsf{Prs} : \mathbf{c}
+$$
+nel modo seguente: data una categoria \(C\) con limiti finiti,
+la sua categoria di prefasci \([C^\opp,\Set]\) è finitamente
+presentabile. Viceversa, data una categoria localmente
+presentabile \(\mathcal K\), possiamo estrarre la sua
+sottocategoria degli oggetti \(\aleph_{\text{0}}\)-compatti; questa è una
+categoria con limiti finiti (è un risultato standard), e
+questo determina una biaggiunzione.
+
+Ora, le categorie con limiti finiti sono Cauchy-complete,
+sicché esse sono univocamente determinate dalle loro
+categorie di prefasci; questo significa che \(P\) è pienamente
+fedele. Del resto, estrarre la categoria degli oggetti
+\(\aleph_{\text{0}}\)-compatti da \(\mathcal K\) è anche lui un funtore
+pienamente fedele, perché \(\mathcal K \cong
+Ind_\aleph_0(\mathbf{c}(\mathcal K))\).
 
 \subsection{Definizione: Yoneda context}
-\label{sec:orgb4a6cc9}
+\label{sec:org59733a9}
+
+\begin{definition}
+	A \emph{Yoneda context} is a pseudonatural transformation $y : S \To P$ such that
+	\begin{itemize}
+		\item for each component $X\in\mathcal K$ the triangle
+		\[
+			\vcenter{\xymatrix{
+			& X \ar[dr]^{\alpha_X}\ar[dl]_{y_X}\ar@{}[d]|{\chi_{P}\Searrow}& \\
+			P(X) && \ar[ll]^{y_X} S (X)
+			}}
+		\]
+		exhibits the left extension of $y_X$ along $\alpha_X$, and which is is component-wise representably fully faithful.
+		\item The pseudo\hyp{}functor $P\in KZ(\mathcal K)$ underlies a Yoneda structure.
+		% \item  $y\in  KZ(\mathcal K)/P$ is a morphism, say $y : S\To P$, which is component-wise $P$ fully faithful.
+	\end{itemize}
+\end{definition}
+
+
 \subsection{Definizione: oggetto accessibile wrt un contesto}
-\label{sec:org4f56f29}
+\label{sec:orgf6e5502}
+
+\begin{definition}[$y$ accessible object]\label{yonacc}
+	Let $y$ be a context on the 2-category $\mathcal K$; $A\in\mathcal K$ is $y$ \emph{accessible} if there exists a $ P $ small object $G\in \mathcal K$ such that $A\cong S  G$.
+\end{definition}
+
+
 \subsection{Definizione: oggetto presentabile wrt un contesto}
-\label{sec:org15c0a19}
+\label{sec:org1861897}
+
+resentability is harder to define properly; in fact, the strategy of exploiting a similar intrinsic characterization for the accessibility condition collides with the fact that we are able to give \emph{two} such characterizations:
+\begin{itemize}
+	\item \label{llp:uno} A category $A$ is locally presentable if it is an accessible, accessibly embedded full reflective subcategory of a category of presheaves.
+	\item \label{llp:due} A category $A$ is locally presentable if it is a full reflective subcategory of a category of presheaves such that the inclusion creates $\lambda$ directed colimits.
+\end{itemize}
+These two characterizations are equivalent in \(\Cat\), but can't be made equal in general.
+
+We will favour the first definition of presentability.
+\begin{definition}[$y$ presentable object]\label{yonpres}
+	Let $y : S \To P$ be a context; $A\in\mathcal K$ is $y$ \emph{presentable} if the following conditions are satisfied:
+	\begin{itemize}
+		\item \label{p:uno} $A$ is a left split subobject (see \autoref{useful-for-envel}) of $ P G$ for some $G$, via an adjunction $L :  P G \leftrightarrows A : i$;
+		\item \label{p:due} $A$ is $y$ accessible (i.e. $A\cong S \overline G$ for some $\overline G$);
+		\item \label{p:tre} The functor $i : A\to  P G$ exhibits the left extension of $\alpha_{\overline G}\circ i$ along $\alpha_{\overline G}$ ($\alpha_{\overline G} : \overline G \to S \overline G$ is the unit of the \kz),
+		\[
+			\vcenter{\xymatrix{
+			&\overline G \ar@{}[d]|(.6){\eta\Searrow} \ar[dr]^{\alpha_{\bar G}} \ar[dl]_{\alpha_{\bar G}\circ i}& \\
+			 P G && \ar[ll]^i A
+			}}
+		\]
+	\end{itemize}
+\end{definition}
+
 \subsection{Faint presentability: non più equivalente alla presentabilità forte}
-\label{sec:orgaeee656}
+\label{sec:orgd3d6c82}
+
+The following definition, as well as the notion of \(S\) cell, will reappear when we study \emph{Gabriel-Ulmer structures}, i.e. those Yoneda contexts where the skewness of our two definitions of presentability disappears (this is the content of \autoref{disappears}; in addition, Gabriel-Ulmer structures will turn out to be the right contexts in which we can instantiate a weak form of Gabriel-Ulmer duality in \(\mathcal K\)).
+\begin{definition}[Faint presentability]
+	Let $y : S\To  P$ be a Yoneda context on $\mathcal K$. An object $A\in\mathcal K$ is called \emph{faintly presentable} if it is a left split subobject of $ P G$ for some $G\in\mathcal K$, and in addition the inclusion $A\to  P G$ is a $S$ cell and $A$ is $S$ cocomplete.
+\end{definition}
+\begin{prop}
+Let \(y\) be a context. Then if \(S G\) is \(y\) presentable, it is also \(y\) faintly presentable.
+
+
 \subsection{\ldots{}Ma sono equivalenti in un GU-envelope!\ldots{}}
-\label{sec:orgf5c84f1}
+\label{sec:orga7b0bc4}
+
+We start with the simple observation that the closure under finite colimits of \(A\in\Cat\) is the subcategory of \([A^\opp,\Set]\) generated by finite colimits of representables; we call this category \(\widehat A\). It is clear that its opposite \((\widehat{A})^\opp\) has finite \emph{limits}; moreover, we have the following chain of isomorphisms, where \(\Cat_*(\widehat{A}^\opp,\Set)\) is the category of functors \(\widehat{A}^\opp\to \Set\) that commute with finite limits:
+\[
+	\boldsymbol{Ind}(\widehat{A}) \cong \Cat_*(\widehat{A}^\opp,\Set)\cong [A^\opp,\Set];
+\]
+in other words, \emph\{there exists an object \(\widehat{A}\) such that\} \(\boldsymbol{Ind}(\widehat A)\cong P A\).
+
+This amounts to a factorization of \(y_A : A \to P A\) as a composition \(A\to \widehat A \to S \widehat A\cong P A\), naturally in \(A\in\cK\). This will turn out to be a fundamental property, in that the definition of a Gabriel\hyp{}Ulmer envelope relative to a context \(y\) amounts to the same ``factorization of \(P\) along \(S\)''. More precisely, we can give the following definition:
+\begin{definition}[\gu envelope]\label{guenvelope}
+	A \emph{Gabriel\hyp{}Ulmer envelope} (\emph{\gu envelope} for short) relative to a context $y : S\to P$ consists of an additional relative \kz{} denoted $\widehat{ - }$ with unit $\iota_A : A\to \widehat A$ such that $ \alpha_{\hat A} : \widehat A \to S(\widehat A)$ exhibits the left extension of $y_G$ along $\iota_A$. In particular this means that the diagram
+	\[
+		\vcenter{\xymatrix{
+		&A\ar[dr]_{ \alpha_{\hat A}\iota_A}\ar[dl]_{\iota_A}&\\
+		\widehat A\ar[rr]_{ \alpha_{\hat A}} && S \widehat A \cong P A
+		\ar@/^1.5pc/(15,0);(36,-10)^{y_A}
+		}}
+	\]
+	is filled by an invertible 2-cell $y_A \cong  \alpha_{\hat A}\iota_A$.
+\end{definition}
+Notice that the 2-category \(\Cat\) has a \gu envelope, relative to the standard context \(\boldsymbol{Ind}_\omega\to [ - ^\opp,\Set]\), defined sending \(A\) into its finite colimit completion \(\widehat A\).
+\begin{rmk}
+	If $L\dashv R$ is an adjunction in $\Cat$, a well-known sufficient condition so that $L$ preserves $\alpha$-presentable objects is that $R$ commutes with $\alpha$-filtered colimits.
+	This simple observation, together with the definition of $S$-cell, motivates the following definition.
+\end{rmk}
+
+
 \subsection{\ldots{}che è esattamente il setting dove vale GU}
-\label{sec:org3ef6adb}
+\label{sec:org3fcd3b7}
+
+Gabriel\hyp{}Ulmer duality builds an a bi\hyp{}equivalence
+\[
+	y\textsf{-Mod} : \text{Lex}^\opp \leftrightarrows \text{LFP} : y\textsf{-Th}
+\]
+between the 2-category of small finitely complete categories, finite limit preserving functors, and natural transformations, and the 2-category \(\one{Lfp}\) of locally finitely presentable categories, finitary right adjoint functors and natural transformations.
+
+The idea is that an object \(C\in\text{Lex}\) is a ``theory'', whose category of models \(\text{Lex}(C,\Set)\) is locally finitely presentable. Gabriel\hyp{}Ulmer duality says that all locally finitely presentable categories arise in this way, as it is possible to extract the theory of which a given \(A\in\text{LFP}\) is the category of models of.
+\begin{definition}[The 2-category $\text{Lex}(y)$]
+	Let $y : S\To P$ be a Yoneda context on $\cK$, and $\widehat{ - }$ a \gu envelope on $\cK$, that will remain implicit in the discussion. We define the 2-category $\text{Lex}(y)$ having 0-cells the $\widehat{ - }$-cocomplete objects, 1-cells the $\widehat{ - }$-cells, and all 2-cells between them.
+\end{definition}
+\begin{definition}[The 2-category $\text{LFP}({y})$]
+	The objects of the 2-category $\text{LFP}({y})$ are $y$-presentable objects of $\cK$: by our \autoref{the-main}, this class coincides with $y$-accessible and cocomplete 0-cells; 1-cells are right adjoints that are $S$-cells according to \autoref{essecells}, with all 2-cells of $\cK$ between them.
+\end{definition}
+\begin{remark}
+	If $A$ is $y$-presentable, then $A\cong S G$, and $A$ is a reflection on $P (\bar G)$, so that there is a fully faithful right adjoint $L\dashv i : S G\to P(\bar G)$; it is easy to see that we can always reduce to the case where $\bar G = G$: since $P\bar G$ is $P$-cocomplete, the composition $i \circ \alpha_G$ admits a Yoneda extension $I : P G\to P \bar G$, and the composition $L \circ I$ determines a reflection of $P G$ onto $S G \cong A$.
+\end{remark}
+\begin{theorem}[Gabriel\hyp{}Ulmer duality]\label{guduality}
+	Let $y : S\To P$ be a context on $\cK$, with $S$ climbable and assume that there exist an absorbing \gu envelope relative to $y$. Then there is a bi-adjunction
+	\[
+		y\textsf{-Mod} : \text{Lex}(y)^\opp \rightleftarrows \text{LFP}(y) : y\textsf{-Th}
+	\]
+	which is in fact a bi-equivalence of 2-categories.
+\end{theorem}
+
 \subsection{Esempi, tantissimi esempi}
-\label{sec:org6b79e8f}
+\label{sec:org1ff6226}
+
+\subsubsection{}
+\label{sec:orgccf2ea6}
+\subsubsection{}
+\label{sec:orga75a3b8}
+\subsubsection{}
+\label{sec:org084152f}
+\subsubsection{}
+\label{sec:org6c27358}
+\subsubsection{}
+\label{sec:orge0541f7}
+\subsubsection{}
+\label{sec:orgf8d4707}
+\subsubsection{}
+\label{sec:orgef44d20}
+\subsubsection{}
+\label{sec:org51d67f8}
+\subsubsection{}
+\label{sec:orgd9bf7e2}
+
 \subsection{Long term goal: derivatori e infty-categorie}
-\label{sec:org701e285}
+\label{sec:org794d1ad}
 \end{document}
